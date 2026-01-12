@@ -1,0 +1,53 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/client"
+}
+
+model Admin {
+  id String @id @default(uuid())
+  name String
+  email String @unique
+  passsword String
+  questions Question[]
+}
+
+model User {
+  id String @id @default(uuid())
+  name String
+  email String @unique
+  password String
+}
+
+model Question {
+  id String @id @default(uuid())
+  title String
+  description String
+  createdAt DateTime
+  adminId String
+  admin Admin @relation(fields: [adminId], references: [id])
+  testCases TestCase[]
+  visibleTests VisibleTest[]
+}
+
+model TestCase {
+  id String @id @default(uuid())
+  input String
+  output String
+  questionId String
+  question Question @relation(fields: [questionId], references: [id])
+}
+
+model VisibleTest {
+  id String @id @default(uuid())
+  input String
+  output String
+  questionId String
+  question Question @relation(fields: [questionId], references: [id])
+}
