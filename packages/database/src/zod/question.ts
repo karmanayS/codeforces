@@ -1,18 +1,19 @@
 import * as z from "zod"
-import { CompleteAdmin, relatedAdminSchema, CompleteTestCase, relatedTestCaseSchema, CompleteVisibleTest, relatedVisibleTestSchema } from "./index"
+import { CompleteUser, relatedUserSchema, CompleteTestCase, relatedTestCaseSchema, CompleteVisibleTest, relatedVisibleTestSchema, testCaseSchema, visibleTestSchema } from "./index"
 
 export const questionSchema = z.object({
-  id: z.string(),
+  //id: z.string(),
   title: z.string(),
   description: z.string(),
   createdAt: z.date(),
+  updatedAt: z.date(),
   timeLimit: z.number().int(),
   memoryLimit: z.number().int(),
-  adminId: z.string(),
+  userId: z.string(),
 })
 
 export interface CompleteQuestion extends z.infer<typeof questionSchema> {
-  admin: CompleteAdmin
+  //user: CompleteUser
   testCases: CompleteTestCase[]
   visibleTests: CompleteVisibleTest[]
 }
@@ -23,7 +24,7 @@ export interface CompleteQuestion extends z.infer<typeof questionSchema> {
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
 export const relatedQuestionSchema: z.ZodSchema<CompleteQuestion> = z.lazy(() => questionSchema.extend({
-  admin: relatedAdminSchema,
-  testCases: relatedTestCaseSchema.array(),
-  visibleTests: relatedVisibleTestSchema.array(),
+  //user: relatedUserSchema,
+  testCases: testCaseSchema.array(),
+  visibleTests: visibleTestSchema.array(),
 }))

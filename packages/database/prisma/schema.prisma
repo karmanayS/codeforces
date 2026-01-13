@@ -33,30 +33,82 @@ generator zod {
   // prismaJsonNullability = false // allows null assignment to optional JSON fields
 }
 
-model Admin {
-  id        String     @id @default(uuid())
-  name      String
-  email     String     @unique
-  passsword String
-  questions Question[]
+model User {
+  id            String     @id @default(uuid())
+  name          String
+  email         String
+  password      String
+  isAdmin       Boolean    @default(false)
+  emailVerified Boolean    @default(false)
+  image         String?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  sessions      Session[]
+  accounts      Account[]
+  questions     Question[]
+
+  @@unique([email])
+  @@map("user")
 }
 
-model User {
-  id       String @id @default(uuid())
-  name     String
-  email    String @unique
-  password String
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
 }
 
 model Question {
   id           String        @id @default(uuid())
   title        String
   description  String
-  createdAt    DateTime
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime
   timeLimit    Int
   memoryLimit  Int
-  adminId      String
-  admin        Admin         @relation(fields: [adminId], references: [id])
+  userId       String
+  user         User          @relation(fields: [userId], references: [id])
   testCases    TestCase[]
   visibleTests VisibleTest[]
 }
