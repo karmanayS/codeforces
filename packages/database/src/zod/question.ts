@@ -12,6 +12,10 @@ export const questionSchema = z.object({
   userId: z.string(),
 })
 
+export const optionalQuestionSchema = questionSchema.partial()
+
+export type Question = z.infer<typeof questionSchema>
+
 export interface CompleteQuestion extends z.infer<typeof questionSchema> {
   //user: CompleteUser
   testCases: CompleteTestCase[]
