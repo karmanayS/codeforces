@@ -19,7 +19,7 @@ app.all('/api/auth/{*any}', toNodeHandler(auth));
 app.use(express.json());
 
 app.use("/api/admin",adminRouter)
-app.use("/api/userRouter",userRouter)
+app.use("/api/userRouter/",userRouter)
 
 app.listen(PORT, () => {
     console.log(`listening on port ${PORT}...`);

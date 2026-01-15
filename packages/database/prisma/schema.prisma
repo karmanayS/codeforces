@@ -34,18 +34,19 @@ generator client {
 // }
 
 model User {
-  id            String     @id @default(uuid())
+  id            String       @id @default(uuid())
   name          String
   email         String
   password      String
-  isAdmin       Boolean    @default(false)
-  emailVerified Boolean    @default(false)
+  isAdmin       Boolean      @default(false)
+  emailVerified Boolean      @default(false)
   image         String?
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
   sessions      Session[]
   accounts      Account[]
   questions     Question[]
+  submissions   Submission[]
 
   @@unique([email])
   @@map("user")
@@ -112,6 +113,7 @@ model Question {
   user         User          @relation(fields: [userId], references: [id])
   testCases    TestCase[]
   visibleTests VisibleTest[]
+  submissions  Submission[]
 }
 
 model TestCase {
@@ -128,4 +130,21 @@ model VisibleTest {
   output     String
   questionId String
   question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+}
+
+model Submission {
+  id         Int              @id @default(autoincrement())
+  token      String           @unique
+  status     SubmissionStatus
+  userId     String
+  user       User             @relation(fields: [userId], references: [id])
+  questionId String
+  question   Question         @relation(fields: [questionId], references: [id])
+}
+
+enum SubmissionStatus {
+  processing
+  accepted
+  failed
+  TLE
 }

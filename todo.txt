@@ -1,3 +1,5 @@
 zod schema req.body doesnt have visible , hidden tests and understand user in zod schema
 cron job to delete data permanently after 30 days ?
 If we create question then we do not need id but when we fetch all questions, we do need id
+where do we set isAdmin field for better auth signup ?
+Submissions table prisma 

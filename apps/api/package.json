@@ -16,6 +16,7 @@
     "@repo/database": "workspace:*",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
+    "axios": "^1.13.2",
     "better-auth": "^1.4.12",
     "cors": "^2.8.5",
     "express": "^5.2.1"
