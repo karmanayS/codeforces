@@ -1,4 +1,4 @@
-import { authClient } from "./authClient";
+import { authClient } from "./auth-client";
 async function signup() {
     const { data, error } = await authClient.signUp.email({
         email : "abc@gmail.com", // user email address

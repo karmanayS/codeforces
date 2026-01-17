@@ -9,4 +9,14 @@ export const auth = betterAuth({
     emailAndPassword: { 
         enabled: true, 
     },
+    user: {
+        additionalFields: {
+            isAdmin: {
+                type: "boolean",
+                required: true,
+                defaultValue: false
+            },
+
+        }
+    }
 });
