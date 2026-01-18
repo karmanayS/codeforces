@@ -9,6 +9,9 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { OTPDialog } from "@/components/otp-dialog"
+import { authClient } from "@/lib/auth-client";
+import { signupSchema } from "@repo/database/zod"
+import { setAdmin } from "@/lib/set-admin"
 
 export default function SignUpPage() {
   const router = useRouter()
@@ -20,28 +23,57 @@ export default function SignUpPage() {
     email: "",
     password: "",
   })
-
+  const [zodError,setZodError] = React.useState({
+    status: false,
+    message: ""
+  })
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setIsLoading(true)
-
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-
-    setIsLoading(false)
-    setShowOTPDialog(true)
+    const zodResult = signupSchema.safeParse(formData)
+    if (zodResult.error) {
+      setZodError({status: true,message: JSON.parse(zodResult.error.message)[0].message})
+      return
+    }
+    const { data, error } = await authClient.signUp.email({
+            email: formData.email, 
+            password: formData.password, // min 8 characters by default
+            name: formData.name
+        }, {
+            onRequest: (ctx) => {
+                setIsLoading(true)
+            },
+            onSuccess: async (ctx) => {
+                setIsLoading(false)
+                const { data,error } = await authClient.emailOtp.sendVerificationOtp({
+                    email: formData.email,
+                    type: "email-verification"
+                });
+                if (error) return alert("Error while sending verification email")
+                setShowOTPDialog(true)
+            },
+            onError: (ctx) => {
+                // display the error message
+                console.log(ctx.error)
+                alert(ctx.error.message);
+            },
+    });
+    if (error) alert("Error while signing up, please try again")
   }
 
   const handleVerifyOTP = async (otp: string) => {
-    // Simulate OTP verification
-    await new Promise((resolve) => setTimeout(resolve, 1500))
-
-    if (otp === "123456") {
-      // For demo purposes
-      router.push("/")
-    } else {
-      throw new Error("Invalid OTP")
+    const { data, error } = await authClient.emailOtp.verifyEmail({
+        email: formData.email, 
+        otp
+    });
+    if (error) {
+      throw new Error(error.message)
     }
+    const response = await setAdmin(formData.email)
+    if (!response) {
+      throw new Error("error while creating admin")
+    }
+    router.push("/dashboard")
   }
 
   return (
@@ -71,7 +103,7 @@ export default function SignUpPage() {
 
           <form onSubmit={handleSubmit} className="mt-8 space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="name">Full name</Label>
+              <Label htmlFor="name">Name</Label>
               <Input
                 id="name"
                 type="text"
@@ -114,7 +146,7 @@ export default function SignUpPage() {
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
               </div>
-              <p className="text-xs text-muted-foreground">Must be at least 8 characters with a number and symbol</p>
+              { (zodError.status) ? <p className="text-sm text-red-500 text-muted-foreground">Error! : {zodError.message}</p> : null}
             </div>
 
             <Button type="submit" className="w-full" disabled={isLoading}>
