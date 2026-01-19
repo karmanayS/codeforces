@@ -29,6 +29,7 @@ export default function SignInPage() {
     setIsLoading(true)
     const zodResult = signinSchema.safeParse(formData)
     if (zodResult.error) {
+        setIsLoading(false)
         return setInputError({status: true,message: JSON.parse(zodResult.error.message)[0].message})
     }
     const { data, error } = await authClient.signIn.email({
@@ -37,6 +38,7 @@ export default function SignInPage() {
         rememberMe: true
     });
     if (error) {
+        setIsLoading(false)
         setInputError({status:true,message: error.message || "Error signing in please check your credentials"})
         return
     }

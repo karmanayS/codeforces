@@ -30,8 +30,10 @@ export default function SignUpPage() {
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setIsLoading(true)
     const zodResult = signupSchema.safeParse(formData)
     if (zodResult.error) {
+      setIsLoading(false)
       setZodError({status: true,message: JSON.parse(zodResult.error.message)[0].message})
       return
     }
@@ -54,11 +56,10 @@ export default function SignUpPage() {
             },
             onError: (ctx) => {
                 // display the error message
-                console.log(ctx.error)
+                setIsLoading(false)
                 alert(ctx.error.message);
             },
     });
-    if (error) alert("Error while signing up, please try again")
   }
 
   const handleVerifyOTP = async (otp: string) => {
