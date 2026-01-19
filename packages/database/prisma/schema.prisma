@@ -37,7 +37,6 @@ model User {
   id            String       @id @default(uuid())
   name          String
   email         String
-  password      String
   isAdmin       Boolean      @default(false)
   emailVerified Boolean      @default(false)
   image         String?

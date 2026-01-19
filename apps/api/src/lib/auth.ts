@@ -3,12 +3,13 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
 import { prisma } from "@repo/database/db";
 import { emailOTP } from "better-auth/plugins"
 import { sendEmail } from "./send-email";
-import "dotenv/config"
+
 
 export const auth = betterAuth({
     database: prismaAdapter(prisma, {
         provider: "postgresql", // or "mysql", "postgresql", ...etc
     }),
+    trustedOrigins: ["http://localhost:3000"],
     emailAndPassword: { 
         enabled: true, 
     },
@@ -18,8 +19,7 @@ export const auth = betterAuth({
                 type: "boolean",
                 required: true,
                 defaultValue: false
-            },
-
+            }
         }
     },
     plugins: [

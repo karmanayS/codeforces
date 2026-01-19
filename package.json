@@ -17,7 +17,6 @@
   },
   "devDependencies": {
     "prettier": "^3.2.5",
-    "prisma": "latest",
     "tsx": "4.19.1",
     "turbo": "^2.7.4"
   },
@@ -25,9 +24,5 @@
     "node": ">=18"
   },
   "packageManager": "pnpm@9.15.1",
-  "name": "with-prisma",
-  "dependencies": {
-    "@prisma/adapter-pg": "^7.2.0",
-    "@prisma/client": "latest"
-  }
+  "name": "with-prisma"
 }
