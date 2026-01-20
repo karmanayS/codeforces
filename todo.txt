@@ -8,3 +8,4 @@ admin email list hardcoded for now
 authorization checks on routes ie only signed in people should be able to access routes and admin page should only be accessed by admin
 optimise frontend ==> react query and s30 1 advance frontend lecture
 optimise backend ?
+category shouldnt be a string in prisma schema

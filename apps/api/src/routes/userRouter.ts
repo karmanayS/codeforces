@@ -27,6 +27,18 @@ userRouter.get("/languages",async(req,res) => {
     }
 })
 
+userRouter.get("/questions",async(req,res) => {
+    const userId = req.userId
+    try {
+        const questions = await prisma.question.findMany()
+    } catch (err) {
+        if (err instanceof Error) {
+            catchError(res,err)
+        }
+        internalServerError(res) 
+    }
+})
+
 userRouter.post("/submission/:questionId",async(req,res) => {
     const questionId = req.params.questionId
     const { data,error } = inputSchema.safeParse(req.body)

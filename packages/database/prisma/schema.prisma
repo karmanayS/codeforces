@@ -108,6 +108,8 @@ model Question {
   timeLimit    Int
   memoryLimit  Int
   isDeleted    Boolean       @default(false)
+  difficulty   Difficulty
+  category     String
   userId       String
   user         User          @relation(fields: [userId], references: [id])
   testCases    TestCase[]
@@ -146,4 +148,10 @@ enum SubmissionStatus {
   accepted
   failed
   TLE
+}
+
+enum Difficulty {
+  easy
+  medium
+  hard
 }
