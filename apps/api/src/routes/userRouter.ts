@@ -30,7 +30,40 @@ userRouter.get("/languages",async(req,res) => {
 userRouter.get("/questions",async(req,res) => {
     const userId = req.userId
     try {
-        const questions = await prisma.question.findMany()
+        const questions = await prisma.question.findMany({
+            select: {
+                title: true,
+                difficulty: true,
+                category: true,
+                submissions: {
+                    where: {
+                        userId
+                    }
+                }
+            }
+        })
+        const filtered = questions.map(q => {
+            let status:string | undefined;
+            q.submissions.map(s => {
+                if (s.status === "accepted") {
+                    status = "solved"
+                    return
+                }
+            })
+            if (!status && q.submissions.length > 0) {
+                status = "attempted"
+            }
+            return {
+                title: q.title,
+                difficulty: q.difficulty,
+                category: q.category,
+                status
+            }
+        })
+        res.json({
+            success: true,
+            problems: filtered
+        }) 
     } catch (err) {
         if (err instanceof Error) {
             catchError(res,err)

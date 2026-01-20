@@ -18,6 +18,9 @@
     "predev": "npm run generate",
     "studio": "prisma studio"
   },
+  "prisma": {
+    "seed": "ts-node src/seed.ts"
+  },
   "dependencies": {
     "@prisma/client" : "6.3.0",
     "dotenv": "^17.2.3",
