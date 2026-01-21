@@ -109,7 +109,8 @@ model Question {
   memoryLimit  Int
   isDeleted    Boolean       @default(false)
   difficulty   Difficulty
-  category     String
+  categoryName String
+  category     Category      @relation(fields: [categoryName], references: [id])
   userId       String
   user         User          @relation(fields: [userId], references: [id])
   testCases    TestCase[]
@@ -141,6 +142,12 @@ model Submission {
   user       User             @relation(fields: [userId], references: [id])
   questionId String
   question   Question         @relation(fields: [questionId], references: [id])
+}
+
+model Category {
+  id        String     @id @default(uuid())
+  title     String     @unique
+  questions Question[]
 }
 
 enum SubmissionStatus {

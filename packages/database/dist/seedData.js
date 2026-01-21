@@ -1,15 +1,29 @@
 "use strict";
-
-// src/client.ts
-var import_client = require("@prisma/client");
-var prismaClientSingleton = () => {
-  return new import_client.PrismaClient();
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
 };
-var globalForPrisma = globalThis;
-var prisma = globalForPrisma.prisma ?? prismaClientSingleton();
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // src/seedData.ts
+var seedData_exports = {};
+__export(seedData_exports, {
+  problemTags: () => problemTags,
+  problemsData: () => problemsData
+});
+module.exports = __toCommonJS(seedData_exports);
 var problemTags = [
   { title: "Array" },
   { title: "Binary Search" },
@@ -1762,75 +1776,8 @@ Output: ""
     ]
   }
 ];
-
-// src/seed.ts
-var ADMIN_USER_ID = "xcBxnn3XKJcadduN7hkW5LyM7OEdisVB";
-async function main() {
-  console.log("\u{1F331} Starting database seed...\n");
-  console.log("\u{1F4CC} Seeding problem tags...");
-  await prisma.problemTag.createMany({
-    data: problemTags,
-    skipDuplicates: true
-  });
-  console.log(`\u2705 Seeded ${problemTags.length} problem tags
-`);
-  const tagsFromDb = await prisma.problemTag.findMany();
-  const tagMap = new Map(tagsFromDb.map((tag) => [tag.title, tag.id]));
-  console.log("\u{1F4DD} Seeding problems...");
-  let createdCount = 0;
-  let skippedCount = 0;
-  for (const problem of problemsData) {
-    const existing = await prisma.problems.findFirst({
-      where: { title: problem.title }
-    });
-    if (existing) {
-      skippedCount++;
-      continue;
-    }
-    const tagIds = problem.tags.map((tagTitle) => tagMap.get(tagTitle)).filter((id) => id !== void 0);
-    await prisma.problems.create({
-      data: {
-        title: problem.title,
-        description: problem.description,
-        problemType: problem.problemType,
-        cpuTimeLimit: problem.cpuTimeLimit,
-        memoryTimeLimit: problem.memoryTimeLimit,
-        userId: ADMIN_USER_ID,
-        tags: {
-          connect: tagIds.map((id) => ({ id }))
-        },
-        visibleTestCases: {
-          create: problem.visibleTestCases.map((tc) => ({
-            input: tc.input,
-            output: tc.output
-          }))
-        },
-        hiddenTestCases: {
-          create: problem.hiddenTestCases.map((tc) => ({
-            input: tc.input,
-            output: tc.output
-          }))
-        }
-      }
-    });
-    createdCount++;
-  }
-  console.log(`\u2705 Created ${createdCount} problems`);
-  if (skippedCount > 0) {
-    console.log(` Skipped ${skippedCount} existing problems`);
-  }
-  const totalProblems = await prisma.problems.count();
-  const totalVisibleTestCases = await prisma.visibleTestCases.count();
-  const totalHiddenTestCases = await prisma.hiddenTestCases.count();
-  console.log("\n\u{1F4CA} Database Summary:");
-  console.log(`   - Problems: ${totalProblems}`);
-  console.log(`   - Visible Test Cases: ${totalVisibleTestCases}`);
-  console.log(`   - Hidden Test Cases: ${totalHiddenTestCases}`);
-  console.log("\n\u{1F389} Seeding completed successfully!");
-}
-main().catch((e) => {
-  console.error("\u274C Seeding failed:", e);
-  process.exit(1);
-}).finally(async () => {
-  await prisma.$disconnect();
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {
+  problemTags,
+  problemsData
 });

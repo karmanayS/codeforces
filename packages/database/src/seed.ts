@@ -1,5 +1,5 @@
 import {prisma} from "./client";
-import { problemTags, problemsData } from "./seedData";
+import { categories, problemsData } from "./seedData";
 
 const ADMIN_USER_ID = "xcBxnn3XKJcadduN7hkW5LyM7OEdisVB";
 
@@ -7,14 +7,14 @@ async function main() {
   console.log("🌱 Starting database seed...\n");
 
   console.log("📌 Seeding problem tags...");
-  await prisma.problemTag.createMany({
-    data: problemTags,
+  await prisma.category.createMany({
+    data: categories,
     skipDuplicates: true,
   });
-  console.log(`✅ Seeded ${problemTags.length} problem tags\n`);
+  console.log(`✅ Seeded ${categories.length} categories\n`);
 
-  const tagsFromDb = await prisma.problemTag.findMany();
-  const tagMap = new Map(tagsFromDb.map((tag) => [tag.title, tag.id]));
+  const categoriesFromDb = await prisma.category.findMany();
+  const tagMap = new Map(categoriesFromDb.map((category) => [category.title, category.id]));
 
   console.log("📝 Seeding problems...");
   let createdCount = 0;
