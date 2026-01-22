@@ -21,6 +21,8 @@ adminRouter.post("/question",async(req,res) => {
                 memoryLimit: data.memoryLimit,
                 visibleTests: { create: data.visibleTests },
                 testCases: { create: data.testCases },
+                difficulty: data.difficulty,
+                categoryName: data.categoryName,
                 userId: req.userId!
             }
         })

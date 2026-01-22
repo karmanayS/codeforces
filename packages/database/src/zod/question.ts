@@ -9,6 +9,8 @@ export const questionSchema = z.object({
   updatedAt: z.date(),
   timeLimit: z.number().int(),
   memoryLimit: z.number().int(),
+  difficulty: z.enum(["easy","medium","hard"]),
+  categoryName: z.string(),
   userId: z.string(),
 })
 
