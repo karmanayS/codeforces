@@ -101,7 +101,7 @@ model Verification {
 
 model Question {
   id           String        @id @default(uuid())
-  title        String
+  title        String        @unique
   description  String
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
@@ -110,7 +110,7 @@ model Question {
   isDeleted    Boolean       @default(false)
   difficulty   Difficulty
   categoryName String
-  category     Category      @relation(fields: [categoryName], references: [id])
+  category     Category      @relation(fields: [categoryName], references: [title])
   userId       String
   user         User          @relation(fields: [userId], references: [id])
   testCases    TestCase[]
