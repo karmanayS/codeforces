@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { PageHeader } from '@/components/pageHeader'
 import { Button } from '@/components/ui/button'
@@ -29,127 +29,126 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import { useRouter } from 'next/router'
 
 interface Problem {
-  id: number
+  id: string
   title: string
-  difficulty: 'Easy' | 'Medium' | 'Hard'
-  status: 'solved' | 'attempted' | 'todo'
-  acceptance: number
-  likes: number
+  difficulty: 'easy' | 'medium' | 'hard'
+  status: 'solved' | 'attempted' | undefined
   category: string
 }
 
-const problems: Problem[] = [
-  {
-    id: 1,
-    title: 'Two Sum',
-    difficulty: 'Easy',
-    status: 'solved',
-    acceptance: 47.5,
-    likes: 25000,
-    category: 'Array'
-  },
-  {
-    id: 2,
-    title: 'Add Two Numbers',
-    difficulty: 'Medium',
-    status: 'solved',
-    acceptance: 32.5,
-    likes: 8000,
-    category: 'Linked List'
-  },
-  {
-    id: 3,
-    title: 'Longest Substring Without Repeating Characters',
-    difficulty: 'Medium',
-    status: 'attempted',
-    acceptance: 33.5,
-    likes: 12000,
-    category: 'String'
-  },
-  {
-    id: 4,
-    title: 'Median of Two Sorted Arrays',
-    difficulty: 'Hard',
-    status: 'todo',
-    acceptance: 27.2,
-    likes: 10000,
-    category: 'Array'
-  },
-  {
-    id: 5,
-    title: 'Longest Palindromic Substring',
-    difficulty: 'Medium',
-    status: 'attempted',
-    acceptance: 32.4,
-    likes: 15000,
-    category: 'String'
-  },
-  {
-    id: 6,
-    title: 'ZigZag Conversion',
-    difficulty: 'Medium',
-    status: 'todo',
-    acceptance: 34.3,
-    likes: 4000,
-    category: 'String'
-  },
-  {
-    id: 7,
-    title: 'Reverse Integer',
-    difficulty: 'Easy',
-    status: 'solved',
-    acceptance: 26.2,
-    likes: 5000,
-    category: 'Math'
-  },
-  {
-    id: 8,
-    title: 'String to Integer (atoi)',
-    difficulty: 'Medium',
-    status: 'attempted',
-    acceptance: 14.6,
-    likes: 3000,
-    category: 'String'
-  },
-  {
-    id: 9,
-    title: 'Palindrome Number',
-    difficulty: 'Easy',
-    status: 'solved',
-    acceptance: 51.2,
-    likes: 4500,
-    category: 'Math'
-  },
-  {
-    id: 10,
-    title: 'Regular Expression Matching',
-    difficulty: 'Hard',
-    status: 'todo',
-    acceptance: 27.5,
-    likes: 7000,
-    category: 'String'
-  },
-  {
-    id: 11,
-    title: 'Container With Most Water',
-    difficulty: 'Medium',
-    status: 'attempted',
-    acceptance: 52.3,
-    likes: 14000,
-    category: 'Array'
-  },
-  {
-    id: 12,
-    title: 'Integer to Roman',
-    difficulty: 'Medium',
-    status: 'todo',
-    acceptance: 63.4,
-    likes: 2000,
-    category: 'Math'
-  },
-]
+// const problems: Problem[] = [
+//   {
+//     id: 1,
+//     title: 'Two Sum',
+//     difficulty: 'Easy',
+//     status: 'solved',
+//     acceptance: 47.5,
+//     likes: 25000,
+//     category: 'Array'
+//   },
+//   {
+//     id: 2,
+//     title: 'Add Two Numbers',
+//     difficulty: 'Medium',
+//     status: 'solved',
+//     acceptance: 32.5,
+//     likes: 8000,
+//     category: 'Linked List'
+//   },
+//   {
+//     id: 3,
+//     title: 'Longest Substring Without Repeating Characters',
+//     difficulty: 'Medium',
+//     status: 'attempted',
+//     acceptance: 33.5,
+//     likes: 12000,
+//     category: 'String'
+//   },
+//   {
+//     id: 4,
+//     title: 'Median of Two Sorted Arrays',
+//     difficulty: 'Hard',
+//     status: 'todo',
+//     acceptance: 27.2,
+//     likes: 10000,
+//     category: 'Array'
+//   },
+//   {
+//     id: 5,
+//     title: 'Longest Palindromic Substring',
+//     difficulty: 'Medium',
+//     status: 'attempted',
+//     acceptance: 32.4,
+//     likes: 15000,
+//     category: 'String'
+//   },
+//   {
+//     id: 6,
+//     title: 'ZigZag Conversion',
+//     difficulty: 'Medium',
+//     status: 'todo',
+//     acceptance: 34.3,
+//     likes: 4000,
+//     category: 'String'
+//   },
+//   {
+//     id: 7,
+//     title: 'Reverse Integer',
+//     difficulty: 'Easy',
+//     status: 'solved',
+//     acceptance: 26.2,
+//     likes: 5000,
+//     category: 'Math'
+//   },
+//   {
+//     id: 8,
+//     title: 'String to Integer (atoi)',
+//     difficulty: 'Medium',
+//     status: 'attempted',
+//     acceptance: 14.6,
+//     likes: 3000,
+//     category: 'String'
+//   },
+//   {
+//     id: 9,
+//     title: 'Palindrome Number',
+//     difficulty: 'Easy',
+//     status: 'solved',
+//     acceptance: 51.2,
+//     likes: 4500,
+//     category: 'Math'
+//   },
+//   {
+//     id: 10,
+//     title: 'Regular Expression Matching',
+//     difficulty: 'Hard',
+//     status: 'todo',
+//     acceptance: 27.5,
+//     likes: 7000,
+//     category: 'String'
+//   },
+//   {
+//     id: 11,
+//     title: 'Container With Most Water',
+//     difficulty: 'Medium',
+//     status: 'attempted',
+//     acceptance: 52.3,
+//     likes: 14000,
+//     category: 'Array'
+//   },
+//   {
+//     id: 12,
+//     title: 'Integer to Roman',
+//     difficulty: 'Medium',
+//     status: 'todo',
+//     acceptance: 63.4,
+//     likes: 2000,
+//     category: 'Math'
+//   },
+// ]
 
 const getDifficultyColor = (difficulty: string) => {
   switch (difficulty) {
@@ -189,6 +188,13 @@ export default function ProblemsPage() {
   const [difficulty, setDifficulty] = useState<string>('all')
   const [status, setStatus] = useState<string>('all')
   const [category, setCategory] = useState<string>('all')
+  const [problems,setProblems] = useState<Problem[]>([])
+  const router = useRouter()
+  let page = Number(router.query.page as string)
+
+  useEffect(() => {
+
+  },[page])
 
   const filtered = problems.filter(p => {
     const matchSearch = p.title.toLowerCase().includes(search.toLowerCase())

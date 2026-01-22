@@ -33,6 +33,7 @@ userRouter.get("/questions/:page",async(req,res) => {
     try {
         const questions = await prisma.question.findMany({
             select: {
+                id : true,
                 title: true,
                 difficulty: true,
                 category: true,
@@ -46,7 +47,7 @@ userRouter.get("/questions/:page",async(req,res) => {
             take: 10
         })
         const filtered = questions.map(q => {
-            let status:string | undefined;
+            let status:"attempted" | "solved" | undefined;
             q.submissions.map(s => {
                 if (s.status === "accepted") {
                     status = "solved"
@@ -57,6 +58,7 @@ userRouter.get("/questions/:page",async(req,res) => {
                 status = "attempted"
             }
             return {
+                id: q.id,
                 title: q.title,
                 difficulty: q.difficulty,
                 category: q.category,
@@ -96,7 +98,7 @@ userRouter.post("/submission/:questionId",async(req,res) => {
                 status: "processing"
             }
         })    
-        res.json({
+        res.status(201).json({
             success: true,
             token: response.data.token
         })     
@@ -114,11 +116,14 @@ userRouter.get("/submission/:token",async(req,res) => {
         const response = await axios.get(`${jugde0}/submissions/${token}?base64_encoded=false&fields=stdout,stderr,status_id,language_id`)
         const { stdout,status_id,language_id,stderr } = response.data
         let status:SubmissionStatus = "processing";
+        if (status_id < 3) {
+            return res.json({
+                success: true,
+                status_id,
+                status
+            })
+        }
         switch (status_id) {
-            case 1:
-            case 2:    
-                status = "processing"
-                break
             case 3:
                 status = "accepted"
                 break 
@@ -128,12 +133,8 @@ userRouter.get("/submission/:token",async(req,res) => {
             case 5:
                 status = "TLE"
         }
-        if (status_id < 3) {
-            return res.json({
-                success: true,
-                status_id,
-                status
-            })
+        if (status_id > 5) {
+            status = "failed"
         }
         await prisma.submission.update({
             where: {

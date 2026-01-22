@@ -9,3 +9,4 @@ authorization checks on routes ie only signed in people should be able to access
 optimise frontend ==> react query and s30 1 advance frontend lecture
 optimise backend ?
 category shouldnt be a string in prisma schema
+what if i get code greater than 5 from judge0 ?
