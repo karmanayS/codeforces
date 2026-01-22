@@ -109,22 +109,13 @@ adminRouter.get("/questions/:page",async(req,res) => {
     const userId = req.userId;
     const page = Number(req.params.page);
     try {
-        let questions;
-        (page === 1) ? 
-            questions = await prisma.question.findMany({
-                where: {
-                    userId
-                },
-                take: 10
-            })
-        :
-            questions = await prisma.question.findMany({
-                where: {
-                    userId
-                },
-                skip: (page * 10) - 10,
-                take: 10
-            })
+        const questions = await prisma.question.findMany({
+            where: {
+                userId
+            },
+            skip: (page * 10) - 10,
+            take: 10
+        })
         res.json({
             success: true,
             questions
@@ -141,20 +132,13 @@ adminRouter.get("/tests/:questionId/:page", async(req,res) => {
     const questionId = req.params.questionId;
     const page = Number(req.params.page);
     try {
-        let tests: CompleteTestCase[];
-        (page === 1) ? 
-            tests = await prisma.testCase.findMany({
+        const tests = await prisma.testCase.findMany({
             where: {
                 questionId
-            }, take: 10
-        }) : 
-            tests = await prisma.testCase.findMany({
-                where: {
-                    questionId
-                }, 
-                skip: (page * 10) - 10,
-                take: 10
-            })
+            }, 
+            skip: (page * 10) - 10,
+            take: 10
+        })
         res.json({
             success: true,
             tests
@@ -171,20 +155,13 @@ adminRouter.get("/visibleTests/:questionId/:page", async(req,res) => {
     const questionId = req.params.questionId;
     const page = Number(req.params.page);
     try {
-        let visibleTests: CompleteVisibleTest[];
-        (page === 1) ? 
-            visibleTests = await prisma.visibleTest.findMany({
+        const visibleTests = await prisma.visibleTest.findMany({
             where: {
                 questionId
-            }, take: 10
-        }) : 
-            visibleTests = await prisma.visibleTest.findMany({
-                where: {
-                    questionId
-                }, 
-                skip: (page * 10) - 10,
-                take: 10
-            })
+            }, 
+            skip: (page * 10) - 10,
+            take: 10
+        })
         res.json({
             success: true,
             visibleTests

@@ -27,8 +27,9 @@ userRouter.get("/languages",async(req,res) => {
     }
 })
 
-userRouter.get("/questions",async(req,res) => {
+userRouter.get("/questions/:page",async(req,res) => {
     const userId = req.userId
+    const page = Number(req.params.page)
     try {
         const questions = await prisma.question.findMany({
             select: {
@@ -40,7 +41,9 @@ userRouter.get("/questions",async(req,res) => {
                         userId
                     }
                 }
-            }
+            }, 
+            skip: (page * 10) - 10,
+            take: 10
         })
         const filtered = questions.map(q => {
             let status:string | undefined;
