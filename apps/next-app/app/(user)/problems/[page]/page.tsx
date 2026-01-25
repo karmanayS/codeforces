@@ -313,7 +313,7 @@ export default function ProblemsPage() {
                     )}
                   </TableCell>
                   <TableCell className="font-medium text-foreground">
-                    <Link href={`/problems/${problem.id}`} className="hover:text-primary">
+                    <Link href={`/problem/${problem.id}`} className="hover:text-primary">
                       {problem.title}
                     </Link>
                   </TableCell>
