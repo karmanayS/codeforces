@@ -1,12 +1,10 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { PageHeader } from '@/components/pageHeader'
-import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { 
   Table, 
   TableBody, 
@@ -29,7 +27,11 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import { useRouter } from 'next/router'
+import { usePathname } from 'next/navigation'
+import axios from 'axios' ;
+import { API_BASE_URL } from '@/lib/common'
+import { toast } from "sonner"
+import { ProblemsPagination } from '@/components/problemsPagination'
 
 interface Problem {
   id: string
@@ -152,18 +154,18 @@ interface Problem {
 
 const getDifficultyColor = (difficulty: string) => {
   switch (difficulty) {
-    case 'Easy':
+    case 'easy':
       return 'bg-green-500/20 text-green-700 dark:text-green-400'
-    case 'Medium':
+    case 'medium':
       return 'bg-amber-500/20 text-amber-700 dark:text-amber-400'
-    case 'Hard':
+    case 'hard':
       return 'bg-red-500/20 text-red-700 dark:text-red-400'
     default:
       return ''
   }
 }
 
-const getStatusIcon = (status: string) => {
+const getStatusIcon = (status: string | undefined) => {
   switch (status) {
     case 'solved':
       return {
@@ -189,11 +191,25 @@ export default function ProblemsPage() {
   const [status, setStatus] = useState<string>('all')
   const [category, setCategory] = useState<string>('all')
   const [problems,setProblems] = useState<Problem[]>([])
-  const router = useRouter()
-  let page = Number(router.query.page as string)
+  const totalProblems = useRef<number | null>(null)
+  const pathname = usePathname()
+  const page = Number(pathname.split("/")[2])
 
   useEffect(() => {
-
+    async function fetchProblems() {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/userRouter/questions/${page}`, {
+          withCredentials: true
+        })
+        setProblems(response.data.problems)
+        console.log("Total questions received from api: ", response.data.totalQuestions)
+        totalProblems.current = response.data.totalQuestions
+      } catch (err) {
+        console.log(err)
+        toast("Error while fetching problems", { position: "bottom-right" })
+      }
+    }
+    fetchProblems()
   },[page])
 
   const filtered = problems.filter(p => {
@@ -266,7 +282,7 @@ export default function ProblemsPage() {
         </div>
 
         {/* Problems Table */}
-        <div className="border border-border rounded-lg overflow-hidden">
+        <div className="border border-border rounded-lg overflow-hidden mb-6">
           <Table>
             <TableHeader>
               <TableRow className="border-b border-border hover:bg-transparent">
@@ -317,6 +333,7 @@ export default function ProblemsPage() {
             </TableBody>
           </Table>
         </div>
+        <ProblemsPagination page={page} totalProblems={totalProblems.current} />
       </main>
     </div>
     </TooltipProvider>

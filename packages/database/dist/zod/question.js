@@ -156,6 +156,8 @@ var questionSchema = z8.object({
   updatedAt: z8.date(),
   timeLimit: z8.number().int(),
   memoryLimit: z8.number().int(),
+  difficulty: z8.enum(["easy", "medium", "hard"]),
+  categoryName: z8.string(),
   userId: z8.string()
 });
 var optionalQuestionSchema = questionSchema.partial();

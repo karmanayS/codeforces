@@ -31,6 +31,7 @@ userRouter.get("/questions/:page",async(req,res) => {
     const userId = req.userId
     const page = Number(req.params.page)
     try {
+        const totalQuestions = await prisma.question.count()
         const questions = await prisma.question.findMany({
             select: {
                 id : true,
@@ -61,13 +62,15 @@ userRouter.get("/questions/:page",async(req,res) => {
                 id: q.id,
                 title: q.title,
                 difficulty: q.difficulty,
-                category: q.category,
-                status
+                category: q.category.title,
+                status,
+                
             }
         })
         res.json({
             success: true,
-            problems: filtered
+            problems: filtered,
+            totalQuestions
         }) 
     } catch (err) {
         if (err instanceof Error) {

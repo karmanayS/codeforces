@@ -95,6 +95,8 @@ var questionSchema = z4.object({
   updatedAt: z4.date(),
   timeLimit: z4.number().int(),
   memoryLimit: z4.number().int(),
+  difficulty: z4.enum(["easy", "medium", "hard"]),
+  categoryName: z4.string(),
   userId: z4.string()
 });
 var optionalQuestionSchema = questionSchema.partial();

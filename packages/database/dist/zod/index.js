@@ -128,6 +128,8 @@ var questionSchema = z5.object({
   updatedAt: z5.date(),
   timeLimit: z5.number().int(),
   memoryLimit: z5.number().int(),
+  difficulty: z5.enum(["easy", "medium", "hard"]),
+  categoryName: z5.string(),
   userId: z5.string()
 });
 var optionalQuestionSchema = questionSchema.partial();

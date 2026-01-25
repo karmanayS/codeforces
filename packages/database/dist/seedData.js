@@ -20,11 +20,11 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // src/seedData.ts
 var seedData_exports = {};
 __export(seedData_exports, {
-  problemTags: () => problemTags,
+  categories: () => categories,
   problemsData: () => problemsData
 });
 module.exports = __toCommonJS(seedData_exports);
-var problemTags = [
+var categories = [
   { title: "Array" },
   { title: "Binary Search" },
   { title: "Divide and Conquer" },
@@ -79,10 +79,10 @@ Output: [0,1]
 - \`-10^9 <= nums[i] <= 10^9\`
 - \`-10^9 <= target <= 10^9\`
 - Only one valid answer exists.`,
-    problemType: "EASY",
+    difficulty: "easy",
     cpuTimeLimit: 1e3,
     memoryTimeLimit: 256,
-    tags: ["Array", "Hash Table"],
+    category: "Array",
     visibleTestCases: [
       { input: "[2,7,11,15]\n9", output: "[0,1]" },
       { input: "[3,2,4]\n6", output: "[1,2]" },
@@ -135,10 +135,10 @@ Explanation: Reads 01 from right to left. Therefore it is not a palindrome.
 - \`-2^31 <= x <= 2^31 - 1\`
 
 **Follow up:** Could you solve it without converting the integer to a string?`,
-    problemType: "EASY",
+    difficulty: "easy",
     cpuTimeLimit: 1e3,
     memoryTimeLimit: 256,
-    tags: ["Math"],
+    category: "Math",
     visibleTestCases: [
       { input: "121", output: "true" },
       { input: "-121", output: "false" },
@@ -202,10 +202,10 @@ Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
 - \`1 <= s.length <= 15\`
 - \`s\` contains only the characters \`('I', 'V', 'X', 'L', 'C', 'D', 'M')\`
 - It is guaranteed that \`s\` is a valid roman numeral in the range \`[1, 3999]\``,
-    problemType: "EASY",
+    difficulty: "easy",
     cpuTimeLimit: 1e3,
     memoryTimeLimit: 256,
-    tags: ["Hash Table", "Math", "String"],
+    category: "Hash Table",
     visibleTestCases: [
       { input: "III", output: "3" },
       { input: "LVIII", output: "58" },
@@ -259,10 +259,10 @@ Output: false
 
 - \`1 <= s.length <= 10^4\`
 - \`s\` consists of parentheses only \`'()[]{}'\``,
-    problemType: "EASY",
+    difficulty: "easy",
     cpuTimeLimit: 1e3,
     memoryTimeLimit: 256,
-    tags: ["String", "Array"],
+    category: "String",
     visibleTestCases: [
       { input: "()", output: "true" },
       { input: "()[]{}", output: "true" },
@@ -316,10 +316,10 @@ Output: [0]
 - The number of nodes in both lists is in the range \`[0, 50]\`
 - \`-100 <= Node.val <= 100\`
 - Both \`list1\` and \`list2\` are sorted in non-decreasing order`,
-    problemType: "EASY",
+    difficulty: "easy",
     cpuTimeLimit: 1e3,
     memoryTimeLimit: 256,
-    tags: ["Linked List", "Recursion"],
+    category: "Linked List",
     visibleTestCases: [
       { input: "[1,2,4]\n[1,3,4]", output: "[1,1,2,3,4,4]" },
       { input: "[]\n[]", output: "[]" },
@@ -363,10 +363,10 @@ Output: 5, nums = [0,1,2,3,4,_,_,_,_,_]
 - \`1 <= nums.length <= 3 * 10^4\`
 - \`-100 <= nums[i] <= 100\`
 - \`nums\` is sorted in non-decreasing order`,
-    problemType: "EASY",
+    difficulty: "easy",
     cpuTimeLimit: 1e3,
     memoryTimeLimit: 256,
-    tags: ["Array", "Two Pointers"],
+    category: "Array",
     visibleTestCases: [
       { input: "[1,1,2]", output: "2" },
       { input: "[0,0,1,1,1,2,2,3,3,4]", output: "5" },
@@ -417,10 +417,10 @@ Output: 4
 - \`-10^4 <= nums[i] <= 10^4\`
 - \`nums\` contains distinct values sorted in ascending order
 - \`-10^4 <= target <= 10^4\``,
-    problemType: "EASY",
+    difficulty: "easy",
     cpuTimeLimit: 1e3,
     memoryTimeLimit: 256,
-    tags: ["Array", "Binary Search"],
+    category: "Array",
     visibleTestCases: [
       { input: "[1,3,5,6]\n5", output: "2" },
       { input: "[1,3,5,6]\n2", output: "1" },
@@ -472,10 +472,10 @@ Explanation: The subarray [5,4,-1,7,8] has the largest sum 23.
 - \`-10^4 <= nums[i] <= 10^4\`
 
 **Follow up:** If you have figured out the O(n) solution, try coding another solution using the divide and conquer approach.`,
-    problemType: "EASY",
+    difficulty: "easy",
     cpuTimeLimit: 1e3,
     memoryTimeLimit: 256,
-    tags: ["Array", "Divide and Conquer", "Dynamic Programming"],
+    category: "Array",
     visibleTestCases: [
       { input: "[-2,1,-3,4,-1,2,1,-5,4]", output: "6" },
       { input: "[1]", output: "1" },
@@ -530,10 +530,10 @@ Explanation: The last word is "joyboy" with length 6.
 - \`1 <= s.length <= 10^4\`
 - \`s\` consists of only English letters and spaces \`' '\`
 - There will be at least one word in \`s\``,
-    problemType: "EASY",
+    difficulty: "easy",
     cpuTimeLimit: 1e3,
     memoryTimeLimit: 256,
-    tags: ["String"],
+    category: "String",
     visibleTestCases: [
       { input: "Hello World", output: "5" },
       { input: "   fly me   to   the moon  ", output: "4" },
@@ -584,10 +584,10 @@ Output: [1,0]
 - \`1 <= digits.length <= 100\`
 - \`0 <= digits[i] <= 9\`
 - \`digits\` does not contain any leading 0's`,
-    problemType: "EASY",
+    difficulty: "easy",
     cpuTimeLimit: 1e3,
     memoryTimeLimit: 256,
-    tags: ["Array", "Math"],
+    category: "Array",
     visibleTestCases: [
       { input: "[1,2,3]", output: "[1,2,4]" },
       { input: "[4,3,2,1]", output: "[4,3,2,2]" },
@@ -628,10 +628,10 @@ Explanation: (1+1+1), (1+2), (2+1).
 
 ## Constraints
 - \`1 <= n <= 45\``,
-    problemType: "EASY",
+    difficulty: "easy",
     cpuTimeLimit: 1e3,
     memoryTimeLimit: 256,
-    tags: ["Math", "Dynamic Programming", "Recursion"],
+    category: "Math",
     visibleTestCases: [
       { input: "2", output: "2" },
       { input: "3", output: "3" },
@@ -669,10 +669,10 @@ Output: -1
 - \`1 <= nums.length <= 10^4\`
 - All integers in \`nums\` are unique
 - \`nums\` is sorted in ascending order`,
-    problemType: "EASY",
+    difficulty: "easy",
     cpuTimeLimit: 1e3,
     memoryTimeLimit: 256,
-    tags: ["Array", "Binary Search"],
+    category: "Array",
     visibleTestCases: [
       { input: "[-1,0,3,5,9,12]\n9", output: "4" },
       { input: "[-1,0,3,5,9,12]\n2", output: "-1" },
@@ -711,10 +711,10 @@ Output: ["h","a","n","n","a","H"]
 ## Constraints
 - \`1 <= s.length <= 10^5\`
 - \`s[i]\` is a printable ASCII character`,
-    problemType: "EASY",
+    difficulty: "easy",
     cpuTimeLimit: 1e3,
     memoryTimeLimit: 256,
-    tags: ["Two Pointers", "String"],
+    category: "Two Pointers",
     visibleTestCases: [
       { input: '["h","e","l","l","o"]', output: '["o","l","l","e","h"]' },
       { input: '["H","a","n","n","a","h"]', output: '["h","a","n","n","a","H"]' }
@@ -751,10 +751,10 @@ Output: ["1","2","Fizz","4","Buzz","Fizz","7","8","Fizz","Buzz","11","Fizz","13"
 
 ## Constraints
 - \`1 <= n <= 10^4\``,
-    problemType: "EASY",
+    difficulty: "easy",
     cpuTimeLimit: 1e3,
     memoryTimeLimit: 256,
-    tags: ["Math", "String"],
+    category: "Math",
     visibleTestCases: [
       { input: "3", output: '["1","2","Fizz"]' },
       { input: "5", output: '["1","2","Fizz","4","Buzz"]' }
@@ -789,10 +789,10 @@ Output: 4
 ## Constraints
 - \`1 <= nums.length <= 3 * 10^4\`
 - \`-3 * 10^4 <= nums[i] <= 3 * 10^4\``,
-    problemType: "EASY",
+    difficulty: "easy",
     cpuTimeLimit: 1e3,
     memoryTimeLimit: 256,
-    tags: ["Array", "Math"],
+    category: "Array",
     visibleTestCases: [
       { input: "[2,2,1]", output: "1" },
       { input: "[4,1,2,1,2]", output: "4" },
@@ -830,10 +830,10 @@ Output: [0]
 ## Constraints
 - The number of nodes in each linked list is in the range \`[1, 100]\`
 - \`0 <= Node.val <= 9\``,
-    problemType: "MEDIUM",
+    difficulty: "medium",
     cpuTimeLimit: 1e3,
     memoryTimeLimit: 256,
-    tags: ["Linked List", "Math", "Recursion"],
+    category: "Linked List",
     visibleTestCases: [
       { input: "[2,4,3]\n[5,6,4]", output: "[7,0,8]" },
       { input: "[0]\n[0]", output: "[0]" }
@@ -874,10 +874,10 @@ Output: 3
 ## Constraints
 - \`0 <= s.length <= 5 * 10^4\`
 - \`s\` consists of English letters, digits, symbols and spaces`,
-    problemType: "MEDIUM",
+    difficulty: "medium",
     cpuTimeLimit: 1e3,
     memoryTimeLimit: 256,
-    tags: ["Hash Table", "String", "Sliding Window"],
+    category: "Hash Table",
     visibleTestCases: [
       { input: "abcabcbb", output: "3" },
       { input: "bbbbb", output: "1" },
@@ -918,10 +918,10 @@ Output: 1
 - \`n == height.length\`
 - \`2 <= n <= 10^5\`
 - \`0 <= height[i] <= 10^4\``,
-    problemType: "MEDIUM",
+    difficulty: "medium",
     cpuTimeLimit: 1e3,
     memoryTimeLimit: 256,
-    tags: ["Array", "Two Pointers", "Greedy"],
+    category: "Array",
     visibleTestCases: [
       { input: "[1,8,6,2,5,4,8,3,7]", output: "49" },
       { input: "[1,1]", output: "1" }
@@ -957,10 +957,10 @@ Output: []
 ## Constraints
 - \`3 <= nums.length <= 3000\`
 - \`-10^5 <= nums[i] <= 10^5\``,
-    problemType: "MEDIUM",
+    difficulty: "medium",
     cpuTimeLimit: 2e3,
     memoryTimeLimit: 256,
-    tags: ["Array", "Two Pointers", "Sorting"],
+    category: "Array",
     visibleTestCases: [
       { input: "[-1,0,1,2,-1,-4]", output: "[[-1,-1,2],[-1,0,1]]" },
       { input: "[0,1,1]", output: "[]" },
@@ -996,10 +996,10 @@ Output: "bb"
 ## Constraints
 - \`1 <= s.length <= 1000\`
 - \`s\` consists of only digits and English letters`,
-    problemType: "MEDIUM",
+    difficulty: "medium",
     cpuTimeLimit: 1e3,
     memoryTimeLimit: 256,
-    tags: ["String", "Dynamic Programming"],
+    category: "String",
     visibleTestCases: [
       { input: "babad", output: "bab" },
       { input: "cbbd", output: "bb" }
@@ -1036,10 +1036,10 @@ Output: [[1,5]]
 - \`1 <= intervals.length <= 10^4\`
 - \`intervals[i].length == 2\`
 - \`0 <= starti <= endi <= 10^4\``,
-    problemType: "MEDIUM",
+    difficulty: "medium",
     cpuTimeLimit: 1e3,
     memoryTimeLimit: 256,
-    tags: ["Array", "Sorting"],
+    category: "Sorting",
     visibleTestCases: [
       { input: "[[1,3],[2,6],[8,10],[15,18]]", output: "[[1,6],[8,10],[15,18]]" },
       { input: "[[1,4],[4,5]]", output: "[[1,5]]" }
@@ -1076,10 +1076,10 @@ Output: [[""]]
 - \`1 <= strs.length <= 10^4\`
 - \`0 <= strs[i].length <= 100\`
 - \`strs[i]\` consists of lowercase English letters`,
-    problemType: "MEDIUM",
+    difficulty: "medium",
     cpuTimeLimit: 1e3,
     memoryTimeLimit: 256,
-    tags: ["Array", "Hash Table", "String", "Sorting"],
+    category: "String",
     visibleTestCases: [
       { input: '["eat","tea","tan","ate","nat","bat"]', output: '[["bat"],["nat","tan"],["ate","eat","tea"]]' },
       { input: '[""]', output: '[[""]]' },
@@ -1116,10 +1116,10 @@ Output: false
 ## Constraints
 - \`1 <= nums.length <= 10^4\`
 - \`0 <= nums[i] <= 10^5\``,
-    problemType: "MEDIUM",
+    difficulty: "medium",
     cpuTimeLimit: 1e3,
     memoryTimeLimit: 256,
-    tags: ["Array", "Dynamic Programming", "Greedy"],
+    category: "Dynamic Programming",
     visibleTestCases: [
       { input: "[2,3,1,1,4]", output: "true" },
       { input: "[3,2,1,0,4]", output: "false" }
@@ -1158,10 +1158,10 @@ Output: [[15,13,2,5],[14,3,4,1],[12,6,8,9],[16,7,10,11]]
 - \`n == matrix.length == matrix[i].length\`
 - \`1 <= n <= 20\`
 - \`-1000 <= matrix[i][j] <= 1000\``,
-    problemType: "MEDIUM",
+    difficulty: "medium",
     cpuTimeLimit: 1e3,
     memoryTimeLimit: 256,
-    tags: ["Array", "Math"],
+    category: "Math",
     visibleTestCases: [
       { input: "[[1,2,3],[4,5,6],[7,8,9]]", output: "[[7,4,1],[8,5,2],[9,6,3]]" }
     ],
@@ -1197,10 +1197,10 @@ Output: true
 - \`n == board[i].length\`
 - \`1 <= m, n <= 6\`
 - \`1 <= word.length <= 15\``,
-    problemType: "MEDIUM",
+    difficulty: "medium",
     cpuTimeLimit: 2e3,
     memoryTimeLimit: 256,
-    tags: ["Array", "Recursion", "String"],
+    category: "Recursion",
     visibleTestCases: [
       { input: '[["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]]\nABCCED', output: "true" },
       { input: '[["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]]\nSEE', output: "true" },
@@ -1236,10 +1236,10 @@ Output: [0,0,9,0,0]
 ## Constraints
 - \`2 <= nums.length <= 10^5\`
 - \`-30 <= nums[i] <= 30\``,
-    problemType: "MEDIUM",
+    difficulty: "medium",
     cpuTimeLimit: 1e3,
     memoryTimeLimit: 256,
-    tags: ["Array"],
+    category: "Array",
     visibleTestCases: [
       { input: "[1,2,3,4]", output: "[24,12,8,6]" },
       { input: "[-1,1,0,-3,3]", output: "[0,0,9,0,0]" }
@@ -1278,10 +1278,10 @@ Output: [-1,-1]
 - \`0 <= nums.length <= 10^5\`
 - \`-10^9 <= nums[i] <= 10^9\`
 - \`nums\` is a non-decreasing array`,
-    problemType: "MEDIUM",
+    difficulty: "medium",
     cpuTimeLimit: 1e3,
     memoryTimeLimit: 256,
-    tags: ["Array", "Binary Search"],
+    category: "Binary Search",
     visibleTestCases: [
       { input: "[5,7,7,8,8,10]\n8", output: "[3,4]" },
       { input: "[5,7,7,8,8,10]\n6", output: "[-1,-1]" },
@@ -1319,10 +1319,10 @@ Output: -1
 - \`1 <= nums.length <= 5000\`
 - \`-10^4 <= nums[i] <= 10^4\`
 - All values of \`nums\` are unique`,
-    problemType: "MEDIUM",
+    difficulty: "medium",
     cpuTimeLimit: 1e3,
     memoryTimeLimit: 256,
-    tags: ["Array", "Binary Search"],
+    category: "Binary Search",
     visibleTestCases: [
       { input: "[4,5,6,7,0,1,2]\n0", output: "4" },
       { input: "[4,5,6,7,0,1,2]\n3", output: "-1" },
@@ -1361,10 +1361,10 @@ Output: -1
 - \`1 <= coins.length <= 12\`
 - \`1 <= coins[i] <= 2^31 - 1\`
 - \`0 <= amount <= 10^4\``,
-    problemType: "MEDIUM",
+    difficulty: "medium",
     cpuTimeLimit: 2e3,
     memoryTimeLimit: 256,
-    tags: ["Array", "Dynamic Programming"],
+    category: "Dynamic Programming",
     visibleTestCases: [
       { input: "[1,2,5]\n11", output: "3" },
       { input: "[2]\n3", output: "-1" },
@@ -1404,10 +1404,10 @@ Explanation: Rob house 1 (2), house 3 (9) and house 5 (1).
 ## Constraints
 - \`1 <= nums.length <= 100\`
 - \`0 <= nums[i] <= 400\``,
-    problemType: "MEDIUM",
+    difficulty: "medium",
     cpuTimeLimit: 1e3,
     memoryTimeLimit: 256,
-    tags: ["Array", "Dynamic Programming"],
+    category: "Dynamic Programming",
     visibleTestCases: [
       { input: "[1,2,3,1]", output: "4" },
       { input: "[2,7,9,3,1]", output: "12" }
@@ -1450,10 +1450,10 @@ Explanation: merged array = [1,2,3,4] and median is (2 + 3) / 2 = 2.5.
 - \`0 <= m <= 1000\`
 - \`0 <= n <= 1000\`
 - \`1 <= m + n <= 2000\``,
-    problemType: "HARD",
+    difficulty: "hard",
     cpuTimeLimit: 1e3,
     memoryTimeLimit: 256,
-    tags: ["Array", "Binary Search", "Divide and Conquer"],
+    category: "Divide and Conquer",
     visibleTestCases: [
       { input: "[1,3]\n[2]", output: "2.00000" },
       { input: "[1,2]\n[3,4]", output: "2.50000" }
@@ -1500,10 +1500,10 @@ Output: true
 - \`1 <= p.length <= 20\`
 - \`s\` contains only lowercase English letters
 - \`p\` contains only lowercase English letters, \`'.'\`, and \`'*'\``,
-    problemType: "HARD",
+    difficulty: "hard",
     cpuTimeLimit: 1e3,
     memoryTimeLimit: 256,
-    tags: ["String", "Dynamic Programming", "Recursion"],
+    category: "Recursion",
     visibleTestCases: [
       { input: "aa\na", output: "false" },
       { input: "aa\na*", output: "true" },
@@ -1548,10 +1548,10 @@ Output: []
 - \`0 <= k <= 10^4\`
 - \`0 <= lists[i].length <= 500\`
 - \`-10^4 <= lists[i][j] <= 10^4\``,
-    problemType: "HARD",
+    difficulty: "hard",
     cpuTimeLimit: 2e3,
     memoryTimeLimit: 256,
-    tags: ["Linked List", "Divide and Conquer", "Sorting"],
+    category: "Linked List",
     visibleTestCases: [
       { input: "[[1,4,5],[1,3,4],[2,6]]", output: "[1,1,2,3,4,4,5,6]" },
       { input: "[]", output: "[]" },
@@ -1587,10 +1587,10 @@ Output: 9
 - \`n == height.length\`
 - \`1 <= n <= 2 * 10^4\`
 - \`0 <= height[i] <= 10^5\``,
-    problemType: "HARD",
+    difficulty: "hard",
     cpuTimeLimit: 1e3,
     memoryTimeLimit: 256,
-    tags: ["Array", "Two Pointers", "Dynamic Programming"],
+    category: "Two Pointers",
     visibleTestCases: [
       { input: "[0,1,0,2,1,0,1,3,2,1,2,1]", output: "6" },
       { input: "[4,2,0,3,2,5]", output: "9" }
@@ -1628,10 +1628,10 @@ Output: [["Q"]]
 
 ## Constraints
 - \`1 <= n <= 9\``,
-    problemType: "HARD",
+    difficulty: "hard",
     cpuTimeLimit: 2e3,
     memoryTimeLimit: 256,
-    tags: ["Array", "Recursion"],
+    category: "Recursion",
     visibleTestCases: [
       { input: "4", output: '[[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]' },
       { input: "1", output: '[["Q"]]' }
@@ -1672,10 +1672,10 @@ Output: 0
 ## Constraints
 - \`0 <= s.length <= 3 * 10^4\`
 - \`s[i]\` is \`'('\`, or \`')'\``,
-    problemType: "HARD",
+    difficulty: "hard",
     cpuTimeLimit: 1e3,
     memoryTimeLimit: 256,
-    tags: ["String", "Dynamic Programming"],
+    category: "String",
     visibleTestCases: [
       { input: "(()", output: "2" },
       { input: ")()())", output: "4" },
@@ -1717,10 +1717,10 @@ Output: 0
 - \`1 <= beginWord.length <= 10\`
 - \`endWord.length == beginWord.length\`
 - \`1 <= wordList.length <= 5000\``,
-    problemType: "HARD",
+    difficulty: "hard",
     cpuTimeLimit: 3e3,
     memoryTimeLimit: 512,
-    tags: ["Hash Table", "String"],
+    category: "Hash Table",
     visibleTestCases: [
       { input: 'hit\ncog\n["hot","dot","dog","lot","log","cog"]', output: "5" },
       { input: 'hit\ncog\n["hot","dot","dog","lot","log"]', output: "0" }
@@ -1761,10 +1761,10 @@ Output: ""
 - \`n == t.length\`
 - \`1 <= m, n <= 10^5\`
 - \`s\` and \`t\` consist of uppercase and lowercase English letters`,
-    problemType: "HARD",
+    difficulty: "hard",
     cpuTimeLimit: 1e3,
     memoryTimeLimit: 256,
-    tags: ["Hash Table", "String", "Sliding Window"],
+    category: "Sliding Window",
     visibleTestCases: [
       { input: "ADOBECODEBANC\nABC", output: "BANC" },
       { input: "a\na", output: "a" },
@@ -1778,6 +1778,6 @@ Output: ""
 ];
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  problemTags,
+  categories,
   problemsData
 });
