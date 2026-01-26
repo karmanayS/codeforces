@@ -202,7 +202,6 @@ export default function ProblemsPage() {
           withCredentials: true
         })
         setProblems(response.data.problems)
-        console.log("Total questions received from api: ", response.data.totalQuestions)
         totalProblems.current = response.data.totalQuestions
       } catch (err) {
         console.log(err)

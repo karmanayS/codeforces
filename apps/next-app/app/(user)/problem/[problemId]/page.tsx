@@ -12,6 +12,10 @@ import { ThemeToggle } from '@/components/theme-toggle'
 import { LanguageSelector } from '@/components/languageSelect'
 import { useTheme } from 'next-themes'
 import ReactMarkdown from 'react-markdown'
+import axios from "axios"
+import { API_BASE_URL } from '@/lib/common'
+import { usePathname } from 'next/navigation'
+import { toast } from 'sonner'
 
 // const problemData = {
 //   id: 1,
@@ -88,10 +92,19 @@ export default function ProblemPage({
   const [language,setLanguage] = useState("cpp")
   const { theme } = useTheme()
   const [problemData,setProblemData] = useState<Problem>()
+  const pathname = usePathname()
+  const problemId = pathname.split("/")[2]
 
   useEffect(() => {
-    async function fetchProblem() {
-
+      async function fetchProblem() {
+        try {
+          const response = await axios.get(`${API_BASE_URL}/userRouter/question/${problemId}`,{
+            withCredentials: true
+          })
+          setProblemData(response.data.problem)
+        } catch(err) {
+          toast("Error while fetching problem Data", { position: "bottom-right" })
+        }  
     }
     fetchProblem()
   },[])
@@ -165,108 +178,54 @@ export default function ProblemPage({
                 value="description"
                 className="flex-1 overflow-y-auto p-6 min-h-0"
               >
-                <div className="space-y-6">
-                  {/* Description Section */}
-                  <div>
-                    <h2 className="text-lg font-semibold mb-3">Description</h2>
-                    <div className="prose prose-invert max-w-none text-muted-foreground leading-relaxed">
-                      <ReactMarkdown
-                        components={{
-                          p: ({ node, ...props }) => (
-                            <p className="mb-3 leading-relaxed" {...props} />
-                          ),
-                          strong: ({ node, ...props }) => (
-                            <strong
-                              className="font-semibold text-foreground"
-                              {...props}
-                            />
-                          ),
-                          em: ({ node, ...props }) => (
-                            <em className="italic text-foreground" {...props} />
-                          ),
-                          ul: ({ node, ...props }) => (
-                            <ul className="list-disc list-inside space-y-2 mb-3" {...props} />
-                          ),
-                          ol: ({ node, ...props }) => (
-                            <ol className="list-decimal list-inside space-y-2 mb-3" {...props} />
-                          ),
-                          li: ({ node, ...props }) => (
-                            <li className="leading-relaxed" {...props} />
-                          ),
-                          code: (props: any) => {
-                            const { node, inline, children, ...rest } = props
-                            return inline ? (
-                              <code
-                                className="bg-background px-2 py-1 rounded text-primary font-mono text-sm"
-                                {...rest}
-                              >
-                                {children}
-                              </code>
-                            ) : (
-                              <code
-                                className="block bg-background p-3 rounded font-mono text-sm overflow-x-auto"
-                                {...rest}
-                              >
-                                {children}
-                              </code>
-                            )
-                          },
-                        }}
-                      >
-                        {problemData.description}
-                      </ReactMarkdown>
-                    </div>
-                  </div>
-
-                  {/* Examples Section */}
-                  {/* {<div>
-                    <h2 className="text-lg font-semibold mb-3">Examples</h2>
-                    <div className="space-y-4">
-                      {problemData.examples.map((example, idx) => (
-                        <Card key={idx} className="p-4 bg-background border">
-                          <div className="space-y-2">
-                            <div className="font-mono text-sm">
-                              <span className="text-primary font-semibold">
-                                Input:{' '}
-                              </span>
-                              <span className="text-foreground">
-                                {example.input}
-                              </span>
-                            </div>
-                            <div className="font-mono text-sm">
-                              <span className="text-primary font-semibold">
-                                Output:{' '}
-                              </span>
-                              <span className="text-foreground">
-                                {example.output}
-                              </span>
-                            </div>
-                            <div className="font-mono text-sm">
-                              <span className="text-muted-foreground">
-                                {example.explanation}
-                              </span>
-                            </div>
-                          </div>
-                        </Card>
-                      ))}
-                    </div>
-                  </div>} */}
-
-                  {/* Constraints Section */}
-                  {/* {<div>
-                    <h2 className="text-lg font-semibold mb-3">Constraints</h2>
-                    <ul className="space-y-2">
-                      {problemData.constraints.map((constraint, idx) => (
-                        <li
-                          key={idx}
-                          className="text-muted-foreground flex items-start gap-2"
-                        >
-                          <span className="text-primary mt-1">•</span>
-                          <span>{constraint}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>} */}
+                <div className="prose prose-invert max-w-none text-muted-foreground">
+                  <ReactMarkdown
+                    components={{
+                      p: ({ node, ...props }) => (
+                        <p className="mb-4 leading-relaxed text-muted-foreground" {...props} />
+                      ),
+                      h2: ({ node, ...props }) => (
+                        <h2 className="text-xl font-semibold text-foreground mt-6 mb-3" {...props} />
+                      ),
+                      h3: ({ node, ...props }) => (
+                        <h3 className="text-lg font-semibold text-foreground mt-4 mb-2" {...props} />
+                      ),
+                      strong: ({ node, ...props }) => (
+                        <strong className="font-semibold text-foreground" {...props} />
+                      ),
+                      em: ({ node, ...props }) => (
+                        <em className="italic text-foreground" {...props} />
+                      ),
+                      ul: ({ node, ...props }) => (
+                        <ul className="list-disc list-inside space-y-2 mb-4" {...props} />
+                      ),
+                      ol: ({ node, ...props }) => (
+                        <ol className="list-decimal list-inside space-y-2 mb-4" {...props} />
+                      ),
+                      li: ({ node, ...props }) => (
+                        <li className="leading-relaxed text-muted-foreground" {...props} />
+                      ),
+                      code: (props: any) => {
+                        const { node, inline, children, ...rest } = props
+                        if (inline) {
+                          return (
+                            <code
+                              className="bg-background px-2 py-1 rounded text-primary font-mono text-sm"
+                              {...rest}
+                            >
+                              {children}
+                            </code>
+                          )
+                        }
+                        return <code {...rest}>{children}</code>
+                      },
+                      pre: ({ node, ...props }) => (
+                        <pre className="bg-background border border-border rounded-lg p-4 overflow-x-auto mb-4" {...props} />
+                      ),
+                    }}
+                  >
+                    {problemData.description}
+                  </ReactMarkdown>
                 </div>
               </TabsContent>
 
