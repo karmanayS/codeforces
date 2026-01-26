@@ -80,6 +80,40 @@ userRouter.get("/questions/:page",async(req,res) => {
     }
 })
 
+userRouter.get("/question/:questionId",async(req,res) => {
+    const questionId = req.params.questionId;
+    try {
+        const question = await prisma.question.findFirst({
+            where: {
+                id : questionId
+            },
+            select: {
+                title: true,
+                description: true,
+                difficulty: true,
+                categoryName: true,
+                timeLimit: true,
+                memoryLimit: true,
+                visibleTests: {
+                    select: {
+                        input: true,
+                        output: true
+                    }
+                }
+            }
+        })
+        res.json({
+            success: true,
+            problem: question
+        })
+    } catch (err) {
+        if (err instanceof Error) {
+            return catchError(res,err)
+        }
+        internalServerError(res)
+    }
+})
+
 userRouter.post("/submission/:questionId",async(req,res) => {
     const questionId = req.params.questionId
     const { data,error } = inputSchema.safeParse(req.body)

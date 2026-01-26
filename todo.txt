@@ -10,3 +10,5 @@ optimise frontend ==> react query and s30 1 advance frontend lecture
 optimise backend ?
 category shouldnt be a string in prisma schema
 make server components of most of the things like problems and just import them in client components
+code editor button colors 
+signin route early return ki jagah use prisma catch error if email already exists ==> this saves a db call

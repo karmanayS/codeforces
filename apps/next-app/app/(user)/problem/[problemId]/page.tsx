@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ChevronLeft } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
@@ -10,42 +10,67 @@ import { Badge } from '@/components/ui/badge'
 import {CodeEditor} from '@/components/code-editor'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { LanguageSelector } from '@/components/languageSelect'
+import { useTheme } from 'next-themes'
+import ReactMarkdown from 'react-markdown'
 
-const problemData = {
-  id: 1,
-  title: 'Two Sum',
-  difficulty: 'Easy',
-  description: `Given an array of integers nums and an integer target, return the indices of the two numbers that add up to target.
+// const problemData = {
+//   id: 1,
+//   title: 'Two Sum',
+//   difficulty: 'Easy',
+//   description: `Given an array of integers **nums** and an integer **target**, return the indices of the two numbers that add up to target.
 
-You may assume that each input has exactly one solution, and you may not use the same element twice.
+// You may assume that each input has **exactly one solution**, and you may **not** use the same element twice.
 
-You can return the answer in any order.`,
-  examples: [
-    {
-      input: 'nums = [2,7,11,15], target = 9',
-      output: '[0,1]',
-      explanation: 'Because nums[0] + nums[1] == 9, we return [0, 1].',
-    },
-    {
-      input: 'nums = [3,2,4], target = 6',
-      output: '[1,2]',
-      explanation: 'Because nums[1] + nums[2] == 6, we return [1, 2].',
-    },
-    {
-      input: 'nums = [3,3], target = 6',
-      output: '[0,1]',
-      explanation: 'Because nums[0] + nums[1] == 6, we return [0, 1].',
-    },
-  ],
-  constraints: [
-    '2 <= nums.length <= 10^4',
-    '-10^9 <= nums[i] <= 10^9',
-    '-10^9 <= target <= 10^9',
-    'Only one valid answer exists.',
-  ],
-  acceptanceRate: 52.3,
-  submissions: 15420000,
-  likes: 35000,
+// You can return the answer in any order.`,
+//   examples: [
+//     {
+//       input: 'nums = [2,7,11,15], target = 9',
+//       output: '[0,1]',
+//       explanation: 'Because nums[0] + nums[1] == 9, we return [0, 1].',
+//     },
+//     {
+//       input: 'nums = [3,2,4], target = 6',
+//       output: '[1,2]',
+//       explanation: 'Because nums[1] + nums[2] == 6, we return [1, 2].',
+//     },
+//     {
+//       input: 'nums = [3,3], target = 6',
+//       output: '[0,1]',
+//       explanation: 'Because nums[0] + nums[1] == 6, we return [0, 1].',
+//     },
+//   ],
+//   constraints: [
+//     '2 <= nums.length <= 10^4',
+//     '-10^9 <= nums[i] <= 10^9',
+//     '-10^9 <= target <= 10^9',
+//     'Only one valid answer exists.',
+//   ],
+//   acceptanceRate: 52.3,
+//   submissions: 15420000,
+//   likes: 35000,
+// }
+
+// title: true,
+//                 description: true,
+//                 difficulty: true,
+//                 categoryName: true,
+//                 timeLimit: true,
+//                 memoryLimit: true,
+//                 visibleTests: {
+//                     select: {
+//                         input: true,
+//                         output: true
+//                     }
+//                 }
+
+interface Problem {
+  title: string,
+  description: string,
+  difficulty: "easy" | "medium" | "hard",
+  categoryName: string,
+  timeLimit: number,
+  memoryLimit: number,
+  visibleTests: {input:string,output:string}[]
 }
 
 export default function ProblemPage({
@@ -53,13 +78,25 @@ export default function ProblemPage({
 }: {
   params: { id: string }
 }) {
-  const [code, setCode] = useState(
-    `function twoSum(nums, target) {
-  // Write your solution here
-  return [];
-}`,
-  )
+//   const [code, setCode] = useState(
+//     `function twoSum(nums, target) {
+//   // Write your solution here
+//   return [];
+// }`,
+//   )
   const [activeTab, setActiveTab] = useState('description')
+  const [language,setLanguage] = useState("cpp")
+  const { theme } = useTheme()
+  const [problemData,setProblemData] = useState<Problem>()
+
+  useEffect(() => {
+    async function fetchProblem() {
+
+    }
+    fetchProblem()
+  },[])
+
+  if (!problemData) return <div>Loading ...</div>
 
   return (
     <div className="min-h-screen bg-background">
@@ -89,9 +126,9 @@ export default function ProblemPage({
               <div className="flex items-center gap-3">
                 <Badge
                   variant={
-                    problemData.difficulty === 'Easy'
+                    problemData.difficulty === 'easy'
                       ? 'default'
-                      : problemData.difficulty === 'Medium'
+                      : problemData.difficulty === 'medium'
                         ? 'secondary'
                         : 'destructive'
                   }
@@ -99,7 +136,7 @@ export default function ProblemPage({
                   {problemData.difficulty}
                 </Badge>
                 <div className="text-sm text-muted-foreground">
-                  {problemData.acceptanceRate}% Acceptance
+                  53.2% Acceptance
                 </div>
               </div>
             </div>
@@ -132,13 +169,57 @@ export default function ProblemPage({
                   {/* Description Section */}
                   <div>
                     <h2 className="text-lg font-semibold mb-3">Description</h2>
-                    <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">
-                      {problemData.description}
-                    </p>
+                    <div className="prose prose-invert max-w-none text-muted-foreground leading-relaxed">
+                      <ReactMarkdown
+                        components={{
+                          p: ({ node, ...props }) => (
+                            <p className="mb-3 leading-relaxed" {...props} />
+                          ),
+                          strong: ({ node, ...props }) => (
+                            <strong
+                              className="font-semibold text-foreground"
+                              {...props}
+                            />
+                          ),
+                          em: ({ node, ...props }) => (
+                            <em className="italic text-foreground" {...props} />
+                          ),
+                          ul: ({ node, ...props }) => (
+                            <ul className="list-disc list-inside space-y-2 mb-3" {...props} />
+                          ),
+                          ol: ({ node, ...props }) => (
+                            <ol className="list-decimal list-inside space-y-2 mb-3" {...props} />
+                          ),
+                          li: ({ node, ...props }) => (
+                            <li className="leading-relaxed" {...props} />
+                          ),
+                          code: (props: any) => {
+                            const { node, inline, children, ...rest } = props
+                            return inline ? (
+                              <code
+                                className="bg-background px-2 py-1 rounded text-primary font-mono text-sm"
+                                {...rest}
+                              >
+                                {children}
+                              </code>
+                            ) : (
+                              <code
+                                className="block bg-background p-3 rounded font-mono text-sm overflow-x-auto"
+                                {...rest}
+                              >
+                                {children}
+                              </code>
+                            )
+                          },
+                        }}
+                      >
+                        {problemData.description}
+                      </ReactMarkdown>
+                    </div>
                   </div>
 
                   {/* Examples Section */}
-                  <div>
+                  {/* {<div>
                     <h2 className="text-lg font-semibold mb-3">Examples</h2>
                     <div className="space-y-4">
                       {problemData.examples.map((example, idx) => (
@@ -169,10 +250,10 @@ export default function ProblemPage({
                         </Card>
                       ))}
                     </div>
-                  </div>
+                  </div>} */}
 
                   {/* Constraints Section */}
-                  <div>
+                  {/* {<div>
                     <h2 className="text-lg font-semibold mb-3">Constraints</h2>
                     <ul className="space-y-2">
                       {problemData.constraints.map((constraint, idx) => (
@@ -185,7 +266,7 @@ export default function ProblemPage({
                         </li>
                       ))}
                     </ul>
-                  </div>
+                  </div>} */}
                 </div>
               </TabsContent>
 
@@ -201,8 +282,8 @@ export default function ProblemPage({
         {/* Right Panel - Code Editor */}
         <div className="w-1/2 flex flex-col bg-card border border-border rounded-lg overflow-hidden">
           {/* Editor Header */}
-          <div className="border-b border-border px-6 py-4 flex items-center justify-between">
-            <LanguageSelector />
+          <div className={`border-b border-border px-6 py-4 flex items-center justify-between ${(theme === "light") ? "bg-white" : "bg-[#1E1E1E]" }`} >
+            <LanguageSelector language={language} setLanguage={setLanguage} />
             <div className="flex gap-2">
               <Button variant="outline" size="sm">
                 Run Code
@@ -215,7 +296,7 @@ export default function ProblemPage({
 
           {/* Monaco Editor */}
           <div className="flex-1 overflow-hidden">
-            <CodeEditor /*value={code} onChange={setCode}*/ />
+            <CodeEditor language={language} /*value={code} onChange={setCode}*/ />
           </div>
         </div>
       </div>

@@ -10,8 +10,10 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useTheme } from "next-themes"
 
 export function LanguageSelector({language,setLanguage}: {language:string,setLanguage:React.Dispatch<React.SetStateAction<string>>}) {
+  const { theme } = useTheme()
 
   return (
     <DropdownMenu>
@@ -21,9 +23,9 @@ export function LanguageSelector({language,setLanguage}: {language:string,setLan
       <DropdownMenuContent className="w-32">
         <DropdownMenuGroup>
           <DropdownMenuRadioGroup value={language} onValueChange={setLanguage}>
-            <DropdownMenuRadioItem value="Javascript">Javascript</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="C++">C++</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="Python">Python</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="javascript">Javascript</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="cpp">C++</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="python">Python</DropdownMenuRadioItem>
           </DropdownMenuRadioGroup>
         </DropdownMenuGroup>
       </DropdownMenuContent>
