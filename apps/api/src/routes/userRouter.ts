@@ -119,25 +119,55 @@ userRouter.post("/submission/:questionId",async(req,res) => {
     const { data,error } = inputSchema.safeParse(req.body)
     if (error) return invalidInput(res)
     try {
-        const response = await axios.post(`${jugde0}/submissions/?base64_encoded=false&wait=false`,{
-            data    
+        const testCases = await prisma.testCase.findMany({
+            where: {
+                questionId
+            },
+            select: {
+                input: true,
+                output: true
+            }
+        })
+        const batchSubmission = testCases.map((t) => {
+            return {
+                language_id: data.language_id,
+                source_code: data.source_code,
+                stdin: t.input,
+                expected_output: t.output
+            }
+        })
+        const response = await axios.post(`${jugde0}/submissions/batch?base64_encoded=false`,{
+            submissions: batchSubmission    
         }, {
             headers: {
                 "Content-Type" : "application/json"
             }
         })
-        if (!response.data.token) throw new Error("Didnt receive token")
+        
+        interface J0_Res {
+            token?: string
+            source_code?: string
+            language_id?: string
+            stdin?: string
+            expected_output?: string
+        }
+        const tokens:{token:string}[] = response.data.map((d: J0_Res) => {
+            if (!d.token) throw new Error("Error while creating submission")
+            return { token: d.token }
+        })
+
         await prisma.submission.create({
             data: {
                 userId: req.userId as string,
                 questionId,
-                token: response.data.token,
-                status: "processing"
+                source_code: data.source_code,
+                status: "processing",
+                tokens: {create: tokens}
             }
         })    
         res.status(201).json({
             success: true,
-            token: response.data.token
+            status: "processing"
         })     
     } catch (err) {
         if (err instanceof Error) {
@@ -151,28 +181,28 @@ userRouter.get("/submission/:token",async(req,res) => {
     const token = req.params.token;
     try {
         const response = await axios.get(`${jugde0}/submissions/${token}?base64_encoded=false&fields=stdout,stderr,status_id,language_id`)
-        const { stdout,status_id,language_id,stderr } = response.data
-        let status:SubmissionStatus = "processing";
-        if (status_id < 3) {
-            return res.json({
-                success: true,
-                status_id,
-                status
-            })
-        }
-        switch (status_id) {
-            case 3:
-                status = "accepted"
-                break 
-            case 4:
-                status = "failed"
-                break
-            case 5:
-                status = "TLE"
-        }
-        if (status_id > 5) {
-            status = "failed"
-        }
+        // const { stdout,status_id,language_id,stderr } = response.data
+        // let status:SubmissionStatus = "processing";
+        // if (status_id < 3) {
+        //     return res.json({
+        //         success: true,
+        //         status_id,
+        //         status
+        //     })
+        // }
+        // switch (status_id) {
+        //     case 3:
+        //         status = "accepted"
+        //         break 
+        //     case 4:
+        //         status = "failed"
+        //         break
+        //     case 5:
+        //         status = "TLE"
+        // }
+        // if (status_id > 5) {
+        //     status = "failed"
+        // }
         await prisma.submission.update({
             where: {
                 token
