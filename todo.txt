@@ -1,7 +1,6 @@
 zod schema req.body doesnt have visible , hidden tests and understand user in zod schema
 cron job to delete data permanently after 30 days ?
 If we create question then we do not need id but when we fetch all questions, we do need id
-where do we set isAdmin field for better auth signup ?
 Submissions table prisma 
 resend otp option
 admin email list hardcoded for now
@@ -12,3 +11,4 @@ category shouldnt be a string in prisma schema
 make server components of most of the things like problems and just import them in client components
 code editor button colors 
 signin route early return ki jagah use prisma catch error if email already exists ==> this saves a db call
+problem acceptance rate hardcoded
