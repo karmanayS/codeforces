@@ -156,7 +156,7 @@ userRouter.post("/submission/:questionId",async(req,res) => {
             return { token: d.token }
         })
 
-        await prisma.submission.create({
+        const newSub = await prisma.submission.create({
             data: {
                 userId: req.userId as string,
                 questionId,
@@ -167,7 +167,7 @@ userRouter.post("/submission/:questionId",async(req,res) => {
         })    
         res.status(201).json({
             success: true,
-            status: "processing"
+            submissionId: newSub.id
         })     
     } catch (err) {
         if (err instanceof Error) {
@@ -177,44 +177,51 @@ userRouter.post("/submission/:questionId",async(req,res) => {
     }    
 })
 
-userRouter.get("/submission/:token",async(req,res) => {
-    const token = req.params.token;
+userRouter.get("/submission/:submissionId",async(req,res) => {
+    const submissionId = Number(req.params.submissionId);
     try {
-        const response = await axios.get(`${jugde0}/submissions/${token}?base64_encoded=false&fields=stdout,stderr,status_id,language_id`)
-        // const { stdout,status_id,language_id,stderr } = response.data
-        // let status:SubmissionStatus = "processing";
-        // if (status_id < 3) {
-        //     return res.json({
-        //         success: true,
-        //         status_id,
-        //         status
-        //     })
-        // }
-        // switch (status_id) {
-        //     case 3:
-        //         status = "accepted"
-        //         break 
-        //     case 4:
-        //         status = "failed"
-        //         break
-        //     case 5:
-        //         status = "TLE"
-        // }
-        // if (status_id > 5) {
-        //     status = "failed"
-        // }
+        const tokenResponse = await prisma.submission_token.findMany({
+            where: {
+                submissionId
+            },
+            select: {
+                token: true
+            }
+        })
+        const tokens = tokenResponse.map((t) => {
+            return t.token
+        })
+        const response = await axios.get(`${jugde0}/submissions/batch?tokens=${tokens.join()}&base64_encoded=false&fields=token,stderr,status_id
+        `)
+        const testsResponse:{token:string,stderr:string,status_id:number}[] = response.data.submissions
+        let submissionStatus:SubmissionStatus = "processing"
+        testsResponse.map((d) => {
+            if (d.status_id > 5 || d.status_id === 4) {
+                submissionStatus = "failed"
+                return
+            } else if (d.status_id < 3) {
+               return res.json({
+                    success: true,
+                    status: submissionStatus
+                }) 
+            } else if (d.status_id === 5) {
+                submissionStatus = "TLE"
+                return
+            } else if(testsResponse.indexOf(d) === (testsResponse.length - 1)) {
+                submissionStatus = "accepted"
+            }
+        })
         await prisma.submission.update({
             where: {
-                token
+                id: submissionId
             },
             data: {
-                status
+                status: submissionStatus
             }
         })
         res.json({
             success: true,
-            status,
-            status_id
+            status: submissionStatus
         })
     } catch (err) {
         if (err instanceof Error) {
