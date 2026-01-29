@@ -12,3 +12,5 @@ make server components of most of the things like problems and just import them 
 code editor button colors 
 signin route early return ki jagah use prisma catch error if email already exists ==> this saves a db call
 problem acceptance rate hardcoded
+use params prop insstead of usePathname hook to fetch problems page and problemID
+languages hardcoded in userRouter/submission/:questionID

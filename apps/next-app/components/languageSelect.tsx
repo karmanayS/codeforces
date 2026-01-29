@@ -23,9 +23,9 @@ export function LanguageSelector({language,setLanguage}: {language:string,setLan
       <DropdownMenuContent className="w-32">
         <DropdownMenuGroup>
           <DropdownMenuRadioGroup value={language} onValueChange={setLanguage}>
-            <DropdownMenuRadioItem value="javascript">Javascript</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="cpp">C++</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="python">Python</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="Javascript">Javascript</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="C++">C++</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="Python">Python</DropdownMenuRadioItem>
           </DropdownMenuRadioGroup>
         </DropdownMenuGroup>
       </DropdownMenuContent>

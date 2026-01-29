@@ -11,21 +11,30 @@ export const userRouter:Router = express.Router()
 userRouter.use(authMiddleware)
 const jugde0 = process.env.JUDGE0_URL as string;
 
-userRouter.get("/languages",async(req,res) => {
-    try {
-        const response = await axios.get(`${jugde0}/languages`)
-        const languages = response.data
-        res.json({
-            success: true,
-            languages
-        })
-    } catch (err) {
-        if (err instanceof Error) {
-            return catchError(res,err)
-        }
-        internalServerError(res)
-    }
-})
+// userRouter.get("/languages",async(req,res) => {
+//     try {
+//         //const response = await axios.get(`${jugde0}/languages`)
+//         const languages = [{
+//             id: 54,
+//             name: "C++"
+//         },{
+//             id: 63,
+//             name: "Javascript"
+//         },{
+//             id: 71,
+//             name: "Python"
+//         }]
+//         res.json({
+//             success: true,
+//             languages
+//         })
+//     } catch (err) {
+//         if (err instanceof Error) {
+//             return catchError(res,err)
+//         }
+//         internalServerError(res)
+//     }
+// })
 
 userRouter.get("/questions/:page",async(req,res) => {
     const userId = req.userId
@@ -117,7 +126,13 @@ userRouter.get("/question/:questionId",async(req,res) => {
 userRouter.post("/submission/:questionId",async(req,res) => {
     const questionId = req.params.questionId
     const { data,error } = inputSchema.safeParse(req.body)
-    if (error) return invalidInput(res)
+    if (error) return invalidInput(res) 
+    const languages: Record<string,number> = {
+        "C++": 54,
+        "Javascript": 63,
+        "Python": 71
+    }        
+    const language_id = languages[data.language]    
     try {
         const testCases = await prisma.testCase.findMany({
             where: {
@@ -130,7 +145,7 @@ userRouter.post("/submission/:questionId",async(req,res) => {
         })
         const batchSubmission = testCases.map((t) => {
             return {
-                language_id: data.language_id,
+                language_id,
                 source_code: data.source_code,
                 stdin: t.input,
                 expected_output: t.output

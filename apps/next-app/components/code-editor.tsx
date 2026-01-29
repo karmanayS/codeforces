@@ -2,10 +2,10 @@ import { Editor } from "@monaco-editor/react"
 import { useTheme } from 'next-themes'
 
 const codeSnippets: Record<string,string> = {
-    "cpp": `#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n  // your code goes here\n}\n
+    "C++": `#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n  // your code goes here\n}\n
     ` ,
-    "javascript": `console.log("Hello Wold !")`,
-    "python": `print("Hello World")`
+    "Javascript": `console.log("Hello Wold !")`,
+    "Python": `print("Hello World")`
 }
 
 export const CodeEditor = ({language} : {language:string}) => {

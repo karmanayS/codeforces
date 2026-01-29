@@ -5,7 +5,6 @@ import { ChevronLeft } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import {CodeEditor} from '@/components/code-editor'
 import { ThemeToggle } from '@/components/theme-toggle'
@@ -16,56 +15,6 @@ import axios from "axios"
 import { API_BASE_URL } from '@/lib/common'
 import { usePathname } from 'next/navigation'
 import { toast } from 'sonner'
-
-// const problemData = {
-//   id: 1,
-//   title: 'Two Sum',
-//   difficulty: 'Easy',
-//   description: `Given an array of integers **nums** and an integer **target**, return the indices of the two numbers that add up to target.
-
-// You may assume that each input has **exactly one solution**, and you may **not** use the same element twice.
-
-// You can return the answer in any order.`,
-//   examples: [
-//     {
-//       input: 'nums = [2,7,11,15], target = 9',
-//       output: '[0,1]',
-//       explanation: 'Because nums[0] + nums[1] == 9, we return [0, 1].',
-//     },
-//     {
-//       input: 'nums = [3,2,4], target = 6',
-//       output: '[1,2]',
-//       explanation: 'Because nums[1] + nums[2] == 6, we return [1, 2].',
-//     },
-//     {
-//       input: 'nums = [3,3], target = 6',
-//       output: '[0,1]',
-//       explanation: 'Because nums[0] + nums[1] == 6, we return [0, 1].',
-//     },
-//   ],
-//   constraints: [
-//     '2 <= nums.length <= 10^4',
-//     '-10^9 <= nums[i] <= 10^9',
-//     '-10^9 <= target <= 10^9',
-//     'Only one valid answer exists.',
-//   ],
-//   acceptanceRate: 52.3,
-//   submissions: 15420000,
-//   likes: 35000,
-// }
-
-// title: true,
-//                 description: true,
-//                 difficulty: true,
-//                 categoryName: true,
-//                 timeLimit: true,
-//                 memoryLimit: true,
-//                 visibleTests: {
-//                     select: {
-//                         input: true,
-//                         output: true
-//                     }
-//                 }
 
 interface Problem {
   title: string,
@@ -89,7 +38,7 @@ export default function ProblemPage({
 // }`,
 //   )
   const [activeTab, setActiveTab] = useState('description')
-  const [language,setLanguage] = useState("cpp")
+  const [language,setLanguage] = useState("C++")
   const { theme } = useTheme()
   const [problemData,setProblemData] = useState<Problem>()
   const pathname = usePathname()
@@ -105,6 +54,16 @@ export default function ProblemPage({
         } catch(err) {
           toast("Error while fetching problem Data", { position: "bottom-right" })
         }  
+    }
+    async function fetchLanguage() {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/userRouter/languages`,{
+          withCredentials: true
+        })
+        setProblemData(response.data.problem)
+      } catch(err) {
+        toast("Error while fetching problem Data", { position: "bottom-right" })
+      } 
     }
     fetchProblem()
   },[])
