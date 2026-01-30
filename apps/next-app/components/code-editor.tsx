@@ -8,10 +8,13 @@ const codeSnippets: Record<string,string> = {
     "Python": `print("Hello World")`
 }
 
-export const CodeEditor = ({language} : {language:string}) => {
+export const CodeEditor = ({language,value,onChange} : {language:string,value:string,onChange: React.Dispatch<React.SetStateAction<string>>}) => {
     const { theme } = useTheme()
+    const monacoLanguage = (language === "C++") ? "cpp" : language.toLowerCase()
 
-    return <Editor theme={theme === 'dark' ? 'vs-dark' : 'vs'} height="90vh" value={codeSnippets[language]} language={language} />;
+    return <Editor theme={theme === 'light' ? 'vs' : 'vs-dark'} height="90vh" value={codeSnippets[language]} language={monacoLanguage} onChange={(v) => {
+        if (v) onChange(v)
+    }} />;
 }
 
 

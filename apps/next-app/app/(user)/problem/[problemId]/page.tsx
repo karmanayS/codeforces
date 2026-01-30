@@ -6,15 +6,13 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Badge } from '@/components/ui/badge'
-import {CodeEditor} from '@/components/code-editor'
 import { ThemeToggle } from '@/components/theme-toggle'
-import { LanguageSelector } from '@/components/languageSelect'
-import { useTheme } from 'next-themes'
 import ReactMarkdown from 'react-markdown'
 import axios from "axios"
 import { API_BASE_URL } from '@/lib/common'
 import { usePathname } from 'next/navigation'
 import { toast } from 'sonner'
+import { CodePanel } from '@/components/code-panel'
 
 interface Problem {
   title: string,
@@ -31,15 +29,7 @@ export default function ProblemPage({
 }: {
   params: { id: string }
 }) {
-//   const [code, setCode] = useState(
-//     `function twoSum(nums, target) {
-//   // Write your solution here
-//   return [];
-// }`,
-//   )
   const [activeTab, setActiveTab] = useState('description')
-  const [language,setLanguage] = useState("C++")
-  const { theme } = useTheme()
   const [problemData,setProblemData] = useState<Problem>()
   const pathname = usePathname()
   const problemId = pathname.split("/")[2]
@@ -54,16 +44,6 @@ export default function ProblemPage({
         } catch(err) {
           toast("Error while fetching problem Data", { position: "bottom-right" })
         }  
-    }
-    async function fetchLanguage() {
-      try {
-        const response = await axios.get(`${API_BASE_URL}/userRouter/languages`,{
-          withCredentials: true
-        })
-        setProblemData(response.data.problem)
-      } catch(err) {
-        toast("Error while fetching problem Data", { position: "bottom-right" })
-      } 
     }
     fetchProblem()
   },[])
@@ -198,25 +178,7 @@ export default function ProblemPage({
         </div>
 
         {/* Right Panel - Code Editor */}
-        <div className="w-1/2 flex flex-col bg-card border border-border rounded-lg overflow-hidden">
-          {/* Editor Header */}
-          <div className={`border-b border-border px-6 py-4 flex items-center justify-between ${(theme === "light") ? "bg-white" : "bg-[#1E1E1E]" }`} >
-            <LanguageSelector language={language} setLanguage={setLanguage} />
-            <div className="flex gap-2">
-              <Button variant="outline" size="sm">
-                Run Code
-              </Button>
-              <Button size="sm" className="bg-primary hover:bg-primary/90">
-                Submit
-              </Button>
-            </div>
-          </div>
-
-          {/* Monaco Editor */}
-          <div className="flex-1 overflow-hidden">
-            <CodeEditor language={language} /*value={code} onChange={setCode}*/ />
-          </div>
-        </div>
+        <CodePanel  problemId={problemId} />
       </div>
     </div>
   )

@@ -138,7 +138,7 @@ var relatedVisibleTestSchema2 = z6.lazy(() => visibleTestSchema.extend({
 // src/zod/index.ts
 var inputSchema = z7.object({
   source_code: z7.string(),
-  language_id: z7.number()
+  language: z7.string()
 });
 var signupSchema = z7.object({
   name: z7.string(),
