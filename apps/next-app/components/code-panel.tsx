@@ -5,15 +5,25 @@ import { CodeEditor } from "./code-editor"
 import { LanguageSelector } from "./languageSelect"
 import { Button } from "./ui/button"
 import { useTheme } from "next-themes"
+import axios from "axios"
+import { API_BASE_URL } from "@/lib/common"
+import { toast } from "sonner"
 
 export const CodePanel = ({problemId} : {problemId:string}) => {
     const [language,setLanguage] = useState("C++")
     const [ code,setCode ] = useState("")
     const { theme } = useTheme()
 
-    console.log("Current language : ",language)
-    console.log("Current code : ",code)
-    
+    async function handleSubmit() {
+        const res = await axios.post(`${API_BASE_URL}/userRouter/submission/${problemId}`,{
+            source_code: code,
+            language
+        },{
+            withCredentials: true
+        })
+        if (!res.data.success) toast("Error while submitting code", {position:"bottom-right"})
+    }
+
     return <div className="w-1/2 flex flex-col bg-card border border-border rounded-lg overflow-hidden">
         {/* Editor Header */}
         <div className={`border-b border-border px-6 py-4 flex items-center justify-between ${(theme === "light") ? "bg-white" : "bg-[#1E1E1E]" }`} >
