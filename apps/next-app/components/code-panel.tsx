@@ -29,10 +29,10 @@ export const CodePanel = ({problemId} : {problemId:string}) => {
         <div className={`border-b border-border px-6 py-4 flex items-center justify-between ${(theme === "light") ? "bg-white" : "bg-[#1E1E1E]" }`} >
         <LanguageSelector language={language} setLanguage={setLanguage} />
         <div className="flex gap-2">
-            <Button variant="outline" size="sm">
+            {/* <Button variant="outline" size="sm">
             Run Code
-            </Button>
-            <Button size="sm" className="bg-primary hover:bg-primary/90">
+            </Button> */}
+            <Button size="sm" className="bg-primary hover:bg-primary/90" onClick={handleSubmit}>
             Submit
             </Button>
         </div>
