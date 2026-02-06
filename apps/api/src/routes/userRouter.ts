@@ -177,7 +177,8 @@ userRouter.post("/submission/:questionId",async(req,res) => {
                 questionId,
                 source_code: data.source_code,
                 status: "processing",
-                tokens: {create: tokens}
+                tokens: {create: tokens},
+                language: data.language
             }
         })    
         res.status(201).json({
@@ -248,10 +249,17 @@ userRouter.get("/submission/:submissionId",async(req,res) => {
 
 userRouter.get("/submissions/:questionId",async(req,res) => {
     const questionId = req.params.questionId;
+    const userId = req.userId
     try {
         const submissions = await prisma.submission.findMany({
             where: {
-                questionId
+                questionId,
+                userId
+            },select: {
+                id:true,
+                language:true,
+                createdAt:true,
+                status:true
             }
         })
         res.json({

@@ -13,6 +13,7 @@ import { API_BASE_URL } from '@/lib/common'
 import { usePathname } from 'next/navigation'
 import { toast } from 'sonner'
 import { CodePanel } from '@/components/code-panel'
+import { Submissions } from '@/components/submissions'
 
 interface Problem {
   title: string,
@@ -169,11 +170,9 @@ export default function ProblemPage({
               </TabsContent>
 
               <TabsContent value="submissions" className="flex-1 overflow-y-auto p-6 min-h-0">
-                <div className="text-muted-foreground">
-                  <p>Your submissions will appear here.</p>
-                </div>
+                <Submissions problemId={problemId} />
               </TabsContent>
-            </Tabs>
+            </Tabs> 
           </div>
         </div>
 

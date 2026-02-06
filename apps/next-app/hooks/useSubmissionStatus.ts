@@ -19,7 +19,7 @@ export const useSubmissionStatus = (submissionId:string) => {
     }
 
     useEffect(() => {
-        const intervalId = setInterval(fetchSubmissionStatus,500)
+        const intervalId = setInterval(fetchSubmissionStatus,1000)
         if (status !== "processing") return clearInterval(intervalId)
         return clearInterval(intervalId)
     },[status])
