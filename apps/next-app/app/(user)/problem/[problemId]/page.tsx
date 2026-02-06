@@ -36,15 +36,15 @@ export default function ProblemPage({
   const problemId = pathname.split("/")[2]
 
   useEffect(() => {
-      async function fetchProblem() {
-        try {
-          const response = await axios.get(`${API_BASE_URL}/userRouter/question/${problemId}`,{
-            withCredentials: true
-          })
-          setProblemData(response.data.problem)
-        } catch(err) {
-          toast("Error while fetching problem Data", { position: "bottom-right" })
-        }  
+    async function fetchProblem() {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/userRouter/question/${problemId}`,{
+          withCredentials: true
+        })
+        setProblemData(response.data.problem)
+      } catch(err) {
+        toast("Error while fetching problem Data", { position: "bottom-right" })
+      }  
     }
     fetchProblem()
   },[])

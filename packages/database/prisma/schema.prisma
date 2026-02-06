@@ -150,7 +150,7 @@ model Submission {
 model Submission_token {
   id           Int        @id @default(autoincrement())
   token        String     @unique
-  submissionId Int        @unique
+  submissionId Int        
   submission   Submission @relation(fields: [submissionId], references: [id])
 }
 
