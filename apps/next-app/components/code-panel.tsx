@@ -13,15 +13,34 @@ export const CodePanel = ({problemId} : {problemId:string}) => {
     const [language,setLanguage] = useState("C++")
     const [ code,setCode ] = useState("")
     const { theme } = useTheme()
+    const [status,setStatus] = useState("processing")
 
     async function handleSubmit() {
-        const res = await axios.post(`${API_BASE_URL}/userRouter/submission/${problemId}`,{
-            source_code: code,
-            language
-        },{
-            withCredentials: true
-        })
-        if (!res.data.success) toast("Error while submitting code", {position:"bottom-right"})
+        try {
+            const subRes = await axios.post(`${API_BASE_URL}/userRouter/submission/${problemId}`,{
+                source_code: code,
+                language
+            },{
+                withCredentials: true
+            })
+            if (!subRes.data.success) throw new Error("Error while submitting code")
+            
+            //polling
+            while (true) {
+                const statusRes = await axios.get(`${API_BASE_URL}/userRouter/submission/${subRes.data.submissionId}`)
+                if (!statusRes.data.success) throw new Error("Error while fetching submission status")
+                if (statusRes.data.status === "processing") {
+                    await new Promise(r => setTimeout(r,1000))
+                    continue
+                }
+                setStatus(statusRes.data.status)
+                break    
+            }    
+        } catch (err) {
+            if (err instanceof Error) {
+                toast(err.message,{position:"bottom-right"})
+            }
+        }
     }
 
     return <div className="w-1/2 flex flex-col bg-card border border-border rounded-lg overflow-hidden">
