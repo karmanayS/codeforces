@@ -15,6 +15,8 @@ problem acceptance rate hardcoded
 use params prop insstead of usePathname hook to fetch problems page and problemID
 languages hardcoded in userRouter/submission/:questionID
 fix status filter in problems list page
+
 add time taken and memory in submissions list 
+
 do not allow submission with the same source code again ==> in the backend the prisma.create will fail if same source code is there because source code is a unique field, this might already be a good fix but it doesnt tell the user that u have made a submission already with the same source code and it just throws a generic error for now
 
