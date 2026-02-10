@@ -216,10 +216,7 @@ userRouter.get("/submission/:submissionId",async(req,res) => {
                 submissionStatus = "failed"
                 return
             } else if (d.status_id < 3) {
-               return res.json({
-                    success: true,
-                    status: submissionStatus
-                }) 
+               return 
             } else if (d.status_id === 5) {
                 submissionStatus = "TLE"
                 return
@@ -227,6 +224,10 @@ userRouter.get("/submission/:submissionId",async(req,res) => {
                 submissionStatus = "accepted"
             }
         })
+        if (submissionStatus === "processing") return res.json({
+            success: true,
+            status: submissionStatus
+        }) 
         await prisma.submission.update({
             where: {
                 id: submissionId

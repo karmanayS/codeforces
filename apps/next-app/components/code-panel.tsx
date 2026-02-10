@@ -26,7 +26,9 @@ export const CodePanel = ({problemId} : {problemId:string}) => {
             
             //polling
             while (true) {
-                const statusRes = await axios.get(`${API_BASE_URL}/userRouter/submission/${subRes.data.submissionId}`)
+                const statusRes = await axios.get(`${API_BASE_URL}/userRouter/submission/${subRes.data. submissionId}`, {
+                    withCredentials: true
+                })
                 if (!statusRes.data.success) throw new Error("Error while fetching submission status")
                 if (statusRes.data.status === "processing") {
                     await new Promise(r => setTimeout(r,1000))
