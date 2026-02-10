@@ -1,6 +1,5 @@
 'use client'
 
-import { Badge } from '@/components/ui/badge'
 import {
   Table,
   TableBody,
@@ -81,7 +80,7 @@ export function Submissions({ problemId }: {problemId: string}) {
                 {submission.language}
                 </TableCell>
                 <TableCell>
-                <SubmissionStatus submissionId={submission.id} />
+                <SubmissionStatus submissionId={submission.id} status={submission.status} />
                 </TableCell>
                 {/* <TableCell className="text-sm text-muted-foreground">
                 {submission.time}

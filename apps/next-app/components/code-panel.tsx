@@ -13,7 +13,6 @@ export const CodePanel = ({problemId} : {problemId:string}) => {
     const [language,setLanguage] = useState("C++")
     const [ code,setCode ] = useState("")
     const { theme } = useTheme()
-    const [status,setStatus] = useState("processing")
 
     async function handleSubmit() {
         try {
@@ -33,7 +32,6 @@ export const CodePanel = ({problemId} : {problemId:string}) => {
                     await new Promise(r => setTimeout(r,1000))
                     continue
                 }
-                setStatus(statusRes.data.status)
                 break    
             }    
         } catch (err) {

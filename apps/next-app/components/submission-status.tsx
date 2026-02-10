@@ -1,10 +1,6 @@
 "use client"
 
-import axios from "axios"
 import { Badge } from "./ui/badge";
-import { useState } from "react";
-import { API_BASE_URL } from "@/lib/common";
-import { toast } from "sonner";
 
 const getStatusColor = (status: string): string => {
   switch (status) {
@@ -36,25 +32,7 @@ const getStatusDisplayText = (status: string): string => {
   }
 }
 
-export function SubmissionStatus({submissionId}:{submissionId:string}) {
-    const [status,setStatus] = useState("processing")
-
-    async function fetchSubmissionStatus() {
-        const res = await axios.get(`${API_BASE_URL}/userRouter/submission/${submissionId}`,{
-            withCredentials: true
-        })
-        
-        if (!res.data.success) {
-            toast("Error while fetching submission status",{position: "bottom-right"})
-            return
-        }
-        console.log("Status: ", res.data.status)
-        const subStatus = res.data.status
-        if (status !== "processing") setStatus(subStatus)
-    }
-
-    
-    
+export function SubmissionStatus({submissionId,status}:{submissionId:string,status:string}) {    
     return <Badge className={getStatusColor(status)}>
         {getStatusDisplayText(status)}
     </Badge>
