@@ -43,7 +43,7 @@ export default function SignInPage() {
         return
     }
     setIsLoading(false)
-    router.push("/dashboard")
+    router.push("/problems/1")
   }
 
   return (

@@ -74,7 +74,7 @@ export default function SignUpPage() {
     if (!response) {
       throw new Error("error while creating admin")
     }
-    router.push("/dashboard")
+    router.push("/problems/1")
   }
 
   return (
